@@ -1464,7 +1464,37 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": "/.*(中转|relay/"
+              "options": "/.*🇸🇬|SG|Singapore|新)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ee2536",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*(🇹🇼|TW|Taiwan|台)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#000095",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*(中转|relay)/"
             },
             "properties": [
               {
@@ -1514,7 +1544,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "rate(node_network_transmit_bytes_total{device=~\"(eth0|ens5)\"}[30s])",
+          "expr": "rate(node_network_transmit_bytes_total{device=~\"(eth0|ens5)\"}[$interval])",
           "hide": false,
           "interval": "",
           "intervalFactor": 2,
@@ -3550,8 +3580,8 @@
         "allFormat": "glob",
         "current": {
           "selected": false,
-          "text": "🇭🇰 BAG",
-          "value": "🇭🇰 BAG"
+          "text": "VPS1",
+          "value": "VPS1"
         },
         "datasource": {
           "type": "prometheus",
@@ -3580,28 +3610,44 @@
         "useTags": false
       },
       {
-        "auto": false,
+        "auto": true,
         "auto_count": 100,
         "auto_min": "1m",
         "current": {
-          "selected": false,
-          "text": "3m",
-          "value": "3m"
+          "text": "30s",
+          "value": "30s"
         },
-        "hide": 2,
         "label": "Interval",
         "name": "interval",
         "options": [
           {
             "selected": true,
+            "text": "30s",
+            "value": "30s"
+          },
+          {
+            "selected": false,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": false,
             "text": "3m",
             "value": "3m"
+          },
+          {
+            "selected": false,
+            "text": "5m",
+            "value": "5m"
+          },
+          {
+            "selected": false,
+            "text": "10m",
+            "value": "10m"
           }
         ],
-        "query": "3m",
-        "queryValue": "",
+        "query": "30s,1m,3m,5m,10m",
         "refresh": 2,
-        "skipUrlSync": false,
         "type": "interval"
       },
       {
@@ -3617,7 +3663,7 @@
         "definition": "query_result(count(node_uname_info{origin_prometheus=~\"$origin_prometheus\",job=~\"$job\"}))",
         "hide": 2,
         "includeAll": false,
-        "label": "主机数",
+        "label": "Total",
         "multi": false,
         "name": "total",
         "options": [],
