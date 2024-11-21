@@ -47,7 +47,7 @@
         "type": "prometheus",
         "uid": "youruid"
       },
-      "description": " Customised by @SLOMO",
+      "description": " Customised by @SLOMO aka. TPCTPCTPC",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3454,9 +3454,7 @@
   "schemaVersion": 39,
   "tags": [
     "Prometheus",
-    "node_exporter",
-    "StarsL.cn",
-    "TenSunS"
+    "node_exporter"
   ],
   "templating": {
     "list": [
