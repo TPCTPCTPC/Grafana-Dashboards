@@ -34,9 +34,21 @@
       "asDropdown": true,
       "icon": "external link",
       "tags": [],
-      "targetBlank": true,
+      "targetBlank": false,
       "title": "",
       "type": "dashboards"
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Homepage",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://github.com/TPCTPCTPC/Grafana-Dashboards"
     }
   ],
   "liveNow": false,
