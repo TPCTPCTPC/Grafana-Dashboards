@@ -520,7 +520,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(irate(node_network_receive_bytes_total[$__rate_interval]) * 8) by (instance)",
+          "expr": "max(irate(node_network_receive_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]) * 8) by (instance)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -535,7 +535,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(irate(node_network_transmit_bytes_total[$__rate_interval]) * 8) by (instance)",
+          "expr": "max(irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]) * 8) by (instance)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -662,197 +662,7 @@
         "type": "prometheus",
         "uid": "youruid"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "decbytes"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.*(🇭🇰|HK|Hong|港)/"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#ff0000",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.*(🇯🇵|JP|Japan|日)/"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#ffb7c5",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.*(🇺🇸|US|United States|美)/"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#0033a0",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.*(🇬🇧|UK|United Kingdom|英)/"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#002f6c",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.*(🇩🇪|DE|Deutschland|Germany|德)/"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#ffcc00",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.*🇸🇬|SG|Singapore|新)/"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#ee2536",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.*(🇹🇼|TW|Taiwan|台)/"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#000095",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 8,
-        "x": 0,
-        "y": 9
-      },
-      "id": 325,
-      "options": {
-        "displayMode": "basic",
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "maxVizHeight": 35,
-        "minVizHeight": 30,
-        "minVizWidth": 8,
-        "namePlacement": "top",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "sum"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showUnfilled": true,
-        "sizing": "manual",
-        "text": {
-          "titleSize": 12,
-          "valueSize": 12
-        },
-        "valueMode": "text"
-      },
-      "pluginVersion": "11.3.0+security-01",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "youruid"
-          },
-          "editorMode": "code",
-          "expr": "sum(increase(node_network_receive_bytes_total[$__interval])) by (instance) + sum(increase(node_network_transmit_bytes_total[$__interval])) by (instance)",
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Per-Instance Traffic Usage",
-      "transparent": true,
-      "type": "bargauge"
-    },
-    {
-      "datasource": {
-        "default": true,
-        "type": "prometheus",
-        "uid": "youruid"
-      },
+      "description": "Mostly accurate within 12 hours.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -968,7 +778,7 @@
       "gridPos": {
         "h": 5,
         "w": 8,
-        "x": 8,
+        "x": 0,
         "y": 9
       },
       "id": 326,
@@ -992,7 +802,7 @@
             "uid": "youruid"
           },
           "editorMode": "code",
-          "expr": "sum(increase(node_network_transmit_bytes_total{instance=~\".*\"}[$__interval]))",
+          "expr": "sum(irate(node_network_transmit_bytes_total{instance=~\".*\", device=~\"(eth.*|ens.*)\"}[30s])) * 15",
           "instant": false,
           "legendFormat": "Upload",
           "range": true,
@@ -1004,7 +814,7 @@
             "uid": "youruid"
           },
           "editorMode": "code",
-          "expr": "sum(increase(node_network_receive_bytes_total{instance=~\".*\"}[$__interval]))",
+          "expr": "sum(irate(node_network_receive_bytes_total{instance=~\".*\", device=~\"(eth.*|ens.*)\"}[30s])) * 15",
           "hide": false,
           "instant": false,
           "legendFormat": "Download",
@@ -1017,7 +827,7 @@
             "uid": "youruid"
           },
           "editorMode": "code",
-          "expr": "sum(increase(node_network_receive_bytes_total{instance=~\".*\"}[$__interval])) + sum(increase(node_network_transmit_bytes_total{instance=~\".*\"}[$__interval]))",
+          "expr": "sum(irate(node_network_receive_bytes_total{instance=~\".*\"}[30s])) * 15 + sum(irate(node_network_transmit_bytes_total{instance=~\".*\"}[30s])) * 15",
           "hide": false,
           "instant": false,
           "legendFormat": "Total",
@@ -1028,6 +838,162 @@
       "title": "Overall Traffic Usage",
       "transparent": true,
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": true,
+        "type": "prometheus",
+        "uid": "youruid"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Active Instances"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#73bf69bf",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "All Connections"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#6b6a96bf",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total Throughput"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#1f61c4bf",
+                  "mode": "shades"
+                }
+              },
+              {
+                "id": "unit",
+                "value": "bps"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 9
+      },
+      "id": 325,
+      "options": {
+        "colorMode": "background_solid",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "inverted",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {},
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.0+security-01",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "youruid"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(up{job=\"$job\"})",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Active Instances",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "youruid"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(node_netstat_Tcp_CurrEstab)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "All Connections",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "youruid"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(sum(irate(node_network_receive_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]) + irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]))) * 8",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Total Throughput",
+          "range": false,
+          "refId": "C"
+        }
+      ],
+      "title": "^ ^",
+      "transparent": true,
+      "type": "stat"
     },
     {
       "datasource": {
@@ -1046,9 +1012,9 @@
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
-            "axisPlacement": "auto",
+            "axisPlacement": "right",
             "axisSoftMax": 1,
-            "axisWidth": 5,
+            "axisWidth": 60,
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
@@ -1179,8 +1145,219 @@
       "fieldConfig": {
         "defaults": {
           "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 65,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 0,
+            "stacking": {
+              "group": "A",
+              "mode": "percent"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*(🇭🇰|HK|Hong|港)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ff0000",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*(🇯🇵|JP|Japan|日)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ffb7c5",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*(🇺🇸|US|United States|美)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#0033a0",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*(🇬🇧|UK|United Kingdom|英)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#002f6c",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*(🇩🇪|DE|Deutschland|Germany|德)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ffcc00",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*🇸🇬|SG|Singapore|新)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ee2536",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*(🇹🇼|TW|Taiwan|台)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#000095",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*(中转|relay)/"
+            },
+            "properties": [
+              {
+                "id": "custom.fillOpacity",
+                "value": 10
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 13
+      },
+      "id": 332,
+      "options": {
+        "bucketCount": 10,
+        "combine": false,
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0+security-01",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "youruid"
+          },
+          "editorMode": "code",
+          "expr": "irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]) * 8 + irate(node_network_receive_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]) * 8",
+          "instant": false,
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Average Speed Distribution",
+      "transparent": true,
+      "type": "histogram"
+    },
+    {
+      "datasource": {
+        "default": true,
+        "type": "prometheus",
+        "uid": "youruid"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
             "fixedColor": "#808080",
-            "mode": "fixed"
+            "mode": "palette-classic"
           },
           "custom": {
             "axisBorderShow": false,
@@ -1367,7 +1544,7 @@
       "gridPos": {
         "h": 5,
         "w": 8,
-        "x": 8,
+        "x": 0,
         "y": 14
       },
       "id": 327,
@@ -1418,8 +1595,8 @@
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
-            "axisPlacement": "left",
-            "axisWidth": 5,
+            "axisPlacement": "right",
+            "axisWidth": 60,
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
@@ -1592,8 +1769,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1884,8 +2060,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1995,8 +2170,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -2363,7 +2537,7 @@
                   },
                   {
                     "id": "custom.lineWidth",
-                    "value": 0
+                    "value": 1
                   }
                 ]
               },
@@ -2530,8 +2704,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -2735,8 +2908,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -2925,8 +3097,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -3322,10 +3493,12 @@
                 "type": "prometheus",
                 "uid": "${datasource}"
               },
+              "editorMode": "code",
               "expr": "irate(node_network_receive_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "recv {{device}}",
+              "range": true,
               "refId": "A",
               "step": 240
             },
@@ -3445,19 +3618,20 @@
         "auto_count": 30,
         "auto_min": "10s",
         "current": {
-          "text": "1m",
-          "value": "1m"
+          "text": "30s",
+          "value": "30s"
         },
+        "hide": 2,
         "label": "Interval",
         "name": "interval",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "30s",
             "value": "30s"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "1m",
             "value": "1m"
           },
@@ -3530,7 +3704,7 @@
   "timepicker": {},
   "timezone": "browser",
   "title": "Node Information",
-  "uid": "NodeExpt",
-  "version": 13,
+  "uid": "NodeExp",
+  "version": 130,
   "weekStart": ""
 }
