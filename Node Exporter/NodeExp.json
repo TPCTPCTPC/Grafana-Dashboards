@@ -520,7 +520,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(irate(node_network_receive_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]) * 8) by (instance)",
+          "expr": "max(irate(node_network_receive_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*)\"}[$__rate_interval]) * 8) by (instance)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -535,7 +535,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]) * 8) by (instance)",
+          "expr": "max(irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*)\"}[$__rate_interval]) * 8) by (instance)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -802,7 +802,7 @@
             "uid": "youruid"
           },
           "editorMode": "code",
-          "expr": "sum(irate(node_network_transmit_bytes_total{instance=~\".*\", device=~\"(eth.*|ens.*)\"}[30s])) * 15",
+          "expr": "sum(irate(node_network_transmit_bytes_total{instance=~\".*\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*)\"}[30s])) * 15",
           "instant": false,
           "legendFormat": "Upload",
           "range": true,
@@ -814,7 +814,7 @@
             "uid": "youruid"
           },
           "editorMode": "code",
-          "expr": "sum(irate(node_network_receive_bytes_total{instance=~\".*\", device=~\"(eth.*|ens.*)\"}[30s])) * 15",
+          "expr": "sum(irate(node_network_receive_bytes_total{instance=~\".*\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*)\"}[30s])) * 15",
           "hide": false,
           "instant": false,
           "legendFormat": "Download",
@@ -983,7 +983,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(sum(irate(node_network_receive_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]) + irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]))) * 8",
+          "expr": "(sum(irate(node_network_receive_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*)\"}[$__rate_interval]) + irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*)\"}[$__rate_interval]))) * 8",
           "instant": true,
           "interval": "",
           "legendFormat": "Total Throughput",
@@ -1063,7 +1063,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "CPU Cores"
+              "options": "baseline"
             },
             "properties": [
               {
@@ -1127,7 +1127,7 @@
           "expr": "1",
           "hide": false,
           "instant": false,
-          "legendFormat": "CPU Cores",
+          "legendFormat": "baseline",
           "range": true,
           "refId": "B"
         }
@@ -1336,7 +1336,7 @@
             "uid": "youruid"
           },
           "editorMode": "code",
-          "expr": "irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]) * 8 + irate(node_network_receive_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]) * 8",
+          "expr": "irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*)\"}[$__rate_interval]) * 8 + irate(node_network_receive_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*)\"}[$__rate_interval]) * 8",
           "instant": false,
           "legendFormat": "{{instance}}",
           "range": true,
@@ -1568,7 +1568,7 @@
             "uid": "youruid"
           },
           "editorMode": "code",
-          "expr": "irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*)\"}[$__rate_interval]) * 8",
+          "expr": "irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*)\"}[$__rate_interval]) * 8",
           "instant": false,
           "legendFormat": "{{instance}}",
           "range": true,
@@ -1769,7 +1769,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2060,7 +2061,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2170,7 +2172,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2704,7 +2707,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2880,7 +2884,7 @@
                 "uid": "youruid"
               },
               "editorMode": "code",
-              "expr": " sum(count(node_cpu_seconds_total{instance=\"$node\", mode='system'}) by (cpu,instance)) by(instance)",
+              "expr": "count(node_cpu_seconds_total{instance=\"$node\", mode='system'}) by (instance)",
               "hide": false,
               "instant": false,
               "legendFormat": "CPU Cores",
@@ -2908,7 +2912,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3097,7 +3102,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3705,6 +3711,6 @@
   "timezone": "browser",
   "title": "Node Information",
   "uid": "NodeExp",
-  "version": 130,
+  "version": 143,
   "weekStart": ""
 }
