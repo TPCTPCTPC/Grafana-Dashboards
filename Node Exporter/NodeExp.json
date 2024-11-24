@@ -662,7 +662,7 @@
         "type": "prometheus",
         "uid": "youruid"
       },
-      "description": "This metric provide relatively accurate results within 6-hour period.",
+      "description": "This metric provides relatively accurate results within 6-hour period.",
       "fieldConfig": {
         "defaults": {
           "color": {
