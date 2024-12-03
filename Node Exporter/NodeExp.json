@@ -72,7 +72,7 @@
     ]
   },
   "description": "An aesthetic dashboard for Node Exporter beginners and learners, or light users.",
-  "editable": true,
+  "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
@@ -194,6 +194,9 @@
               {
                 "id": "custom.minWidth",
                 "value": 75
+              },
+              {
+                "id": "custom.width"
               }
             ]
           },
@@ -263,6 +266,10 @@
               {
                 "id": "min",
                 "value": 0
+              },
+              {
+                "id": "custom.minWidth",
+                "value": 160
               }
             ]
           },
@@ -293,6 +300,10 @@
               {
                 "id": "min",
                 "value": 0
+              },
+              {
+                "id": "custom.minWidth",
+                "value": 160
               }
             ]
           },
@@ -375,6 +386,10 @@
               {
                 "id": "min",
                 "value": 0
+              },
+              {
+                "id": "custom.minWidth",
+                "value": 160
               }
             ]
           },
@@ -507,7 +522,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "((1 - (1 - avg(rate(node_cpu_seconds_total{mode=\"idle\"}[$__rate_interval])) by (instance)) ^ 1.3) ^ (1/3) * 0.5 + \n( 1 - (1 - avg(node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) by (instance)) ^ 6) ^ (1/3) * 0.3 + \n(1 - max(rate(node_disk_io_time_seconds_total[$__rate_interval]))by (instance) ^ 1.1) ^ (1/2) * 0.2) * 100",
+          "expr": "((1 - (1 - avg(rate(node_cpu_seconds_total{job=\"$job\", mode=\"idle\"}[$__rate_interval])) by (instance)) ^ 1.3) ^ (1/3) * 0.5 + \n( 1 - (1 - avg(node_memory_MemAvailable_bytes{job=\"$job\"} / node_memory_MemTotal_bytes{job=\"$job\"}) by (instance)) ^ 6) ^ (1/3) * 0.3 + \n(1 - max(rate(node_disk_io_time_seconds_total{job=\"$job\"}[$__rate_interval]))by (instance) ^ 1.1) ^ (1/2) * 0.2) * 100",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -521,7 +536,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "node_memory_MemTotal_bytes",
+          "expr": "node_memory_MemTotal_bytes{job=\"$job\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -536,7 +551,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(1 - (node_memory_MemAvailable_bytes / (node_memory_MemTotal_bytes))) * 100",
+          "expr": "(1 - (node_memory_MemAvailable_bytes{job=\"$job\"} / (node_memory_MemTotal_bytes{job=\"$job\"}))) * 100",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -551,7 +566,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(1 - avg(rate(node_cpu_seconds_total{mode=\"idle\"}[$__rate_interval])) by (instance)) * 100",
+          "expr": "(1 - avg(rate(node_cpu_seconds_total{job=\"$job\", mode=\"idle\"}[$__rate_interval])) by (instance)) * 100",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -566,7 +581,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(node_filesystem_avail_bytes{fstype=~\"ext.?|xfs\"}) by (instance)",
+          "expr": "max(node_filesystem_avail_bytes{job=\"$job\", fstype=~\"ext.?|xfs\"}) by (instance)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -581,7 +596,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) * 8",
+          "expr": "sum(irate(node_network_transmit_bytes_total{job=\"$job\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) * 8) by (instance)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -596,7 +611,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(node_network_receive_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) * 8",
+          "expr": "sum(irate(node_network_receive_bytes_total{job=\"$job\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) * 8) by (instance)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -611,7 +626,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "node_netstat_Tcp_CurrEstab - 0",
+          "expr": "node_netstat_Tcp_CurrEstab{job=\"$job\"} - 0",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -626,7 +641,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(node_netstat_Tcp_RetransSegs[$__rate_interval])",
+          "expr": "irate(node_netstat_Tcp_RetransSegs{job=\"$job\"}[$__rate_interval])",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -641,7 +656,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(time() - node_boot_time_seconds) by (instance)",
+          "expr": "sum(time() - node_boot_time_seconds{job=\"$job\"}) by (instance)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -704,12 +719,12 @@
                 "Mem. Total",
                 "Memory Use",
                 "CPU Utilisation",
-                "Receive Rate",
+                "Avail. Space",
                 "Transmit Rate",
+                "Receive Rate",
                 "TCP Conns.",
                 "Retrans",
-                "Uptime",
-                "Value #Available Disk Space"
+                "Uptime"
               ]
             }
           }
@@ -871,7 +886,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(irate(node_network_transmit_bytes_total{instance=~\".*\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval])) * 10",
+          "expr": "sum(irate(node_network_transmit_bytes_total{job=\"$job\", instance=~\".*\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval])) * 10",
           "instant": false,
           "interval": "",
           "legendFormat": "Upload",
@@ -884,7 +899,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(irate(node_network_receive_bytes_total{instance=~\".*\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval])) * 10",
+          "expr": "sum(irate(node_network_receive_bytes_total{job=\"$job\", instance=~\".*\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval])) * 10",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -898,7 +913,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(irate(node_network_transmit_bytes_total{instance=~\".*\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) + irate(node_network_receive_bytes_total{instance=~\".*\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval])) * 10",
+          "expr": "sum(irate(node_network_transmit_bytes_total{job=\"$job\", instance=~\".*\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) + irate(node_network_receive_bytes_total{job=\"$job\", instance=~\".*\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval])) * 10",
           "hide": false,
           "instant": false,
           "legendFormat": "Total",
@@ -915,7 +930,7 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "Made you look;)",
+      "description": "Last modified: 23:58, December 3, 2024",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1010,9 +1025,7 @@
           "values": false
         },
         "showPercentChange": false,
-        "text": {
-          "titleSize": 11.5
-        },
+        "text": {},
         "textMode": "value_and_name",
         "wideLayout": true
       },
@@ -1040,7 +1053,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(node_netstat_Tcp_CurrEstab)",
+          "expr": "sum(node_netstat_Tcp_CurrEstab{job=\"$job\"})",
           "hide": false,
           "instant": true,
           "interval": "",
@@ -1055,7 +1068,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(sum(irate(node_network_receive_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) + irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]))) * 8",
+          "expr": "(sum(irate(node_network_receive_bytes_total{job=\"$job\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) + irate(node_network_transmit_bytes_total{job=\"$job\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]))) * 8",
           "instant": true,
           "interval": "",
           "legendFormat": "Total Throughput",
@@ -1192,7 +1205,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "node_load5",
+          "expr": "node_load5{job=\"$job\"}",
           "instant": false,
           "legendFormat": "{{instance}}",
           "range": true,
@@ -1417,7 +1430,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) * 8 + irate(node_network_receive_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) * 8",
+          "expr": "irate(node_network_transmit_bytes_total{job=\"$job\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) * 8 + irate(node_network_receive_bytes_total{job=\"$job\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) * 8",
           "instant": false,
           "legendFormat": "{{instance}}",
           "range": true,
@@ -1610,7 +1623,7 @@
               },
               {
                 "id": "custom.fillOpacity",
-                "value": 25
+                "value": 5
               },
               {
                 "id": "custom.gradientMode",
@@ -1647,7 +1660,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "irate(node_network_transmit_bytes_total{device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) * 8",
+          "expr": "irate(node_network_transmit_bytes_total{job=\"$job\", device=~\"(eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*)\"}[$__rate_interval]) * 8",
           "instant": false,
           "legendFormat": "{{instance}}",
           "range": true,
@@ -1761,7 +1774,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(node_netstat_Tcp_CurrEstab)",
+          "expr": "sum(node_netstat_Tcp_CurrEstab{job=\"$job\"})",
           "instant": false,
           "legendFormat": "Current Established",
           "range": true,
@@ -1773,7 +1786,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(node_sockstat_TCP_tw)",
+          "expr": "sum(node_sockstat_TCP_tw{job=\"$job\"})",
           "hide": false,
           "instant": false,
           "legendFormat": "TIME_WAIT",
@@ -1942,9 +1955,7 @@
           "values": false
         },
         "showPercentChange": false,
-        "text": {
-          "titleSize": 10.5
-        },
+        "text": {},
         "textMode": "value_and_name",
         "wideLayout": true
       },
@@ -1957,7 +1968,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(node_network_transmit_bytes_total{device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d]))",
+          "expr": "sum(increase(node_network_transmit_bytes_total{job=\"$job\", device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d]))",
           "hide": false,
           "instant": true,
           "interval": "",
@@ -1972,7 +1983,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(node_network_receive_bytes_total{device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d]))",
+          "expr": "sum(increase(node_network_receive_bytes_total{job=\"$job\", device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d]))",
           "hide": false,
           "instant": true,
           "interval": "",
@@ -1987,7 +1998,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(node_network_transmit_bytes_total{device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d])) + sum(increase(node_network_receive_bytes_total{device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d]))",
+          "expr": "sum(increase(node_network_transmit_bytes_total{job=\"$job\", device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d])) + sum(increase(node_network_receive_bytes_total{job=\"$job\", device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d]))",
           "hide": false,
           "instant": true,
           "interval": "",
@@ -2009,7 +2020,7 @@
       },
       "id": 263,
       "panels": [],
-      "title": "Instance Resource Details - $node",
+      "title": "〔NODE INFO〕↘️ $node",
       "type": "row"
     },
     {
@@ -2124,7 +2135,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(node_network_transmit_bytes_total{instance=\"$node\", device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d]))",
+          "expr": "sum(increase(node_network_transmit_bytes_total{job=\"$job\", instance=\"$node\", device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d]))",
           "hide": false,
           "instant": true,
           "interval": "",
@@ -2139,7 +2150,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(node_network_receive_bytes_total{instance=\"$node\", device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d]))",
+          "expr": "sum(increase(node_network_receive_bytes_total{job=\"$job\", instance=\"$node\", device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d]))",
           "hide": false,
           "instant": true,
           "interval": "",
@@ -2154,7 +2165,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(node_network_transmit_bytes_total{instance=\"$node\", device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d])) + sum(increase(node_network_receive_bytes_total{instance=\"$node\", device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d]))",
+          "expr": "sum(increase(node_network_transmit_bytes_total{job=\"$job\", instance=\"$node\", device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d])) + sum(increase(node_network_receive_bytes_total{job=\"$job\", instance=\"$node\", device=~\"eth.*|ens.*|eno.*|enp.*|enx.*|enX.*|wlan.*\"}[30d]))",
           "instant": true,
           "interval": "",
           "legendFormat": "Total",
@@ -2236,7 +2247,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "super-light-purple",
+                  "fixedColor": "#d3bae9",
                   "mode": "fixed"
                 }
               },
@@ -2265,7 +2276,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "#a47ac6",
                   "mode": "fixed"
                 }
               },
@@ -2284,7 +2295,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "dark-purple",
+                  "fixedColor": "#5f3e7b",
                   "mode": "fixed"
                 }
               },
@@ -2307,7 +2318,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "light-green",
+                  "fixedColor": "#cce5cc",
                   "mode": "fixed"
                 }
               },
@@ -2376,7 +2387,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "node_load1{instance=\"$node\"}",
+          "expr": "node_load1{job=\"$job\", instance=\"$node\"}",
           "instant": false,
           "legendFormat": "1m",
           "range": true,
@@ -2388,7 +2399,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "node_load5{instance=\"$node\"}",
+          "expr": "node_load5{job=\"$job\", instance=\"$node\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "5m",
@@ -2401,7 +2412,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "node_load15{instance=\"$node\"}",
+          "expr": "node_load15{job=\"$job\", instance=\"$node\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "15m",
@@ -2414,7 +2425,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "count(node_cpu_seconds_total{instance=\"$node\", mode='system'}) by (instance)",
+          "expr": "count(node_cpu_seconds_total{job=\"$job\", instance=\"$node\", mode='system'}) by (instance)",
           "hide": false,
           "instant": false,
           "legendFormat": "CPU Cores",
@@ -2502,17 +2513,13 @@
               {
                 "id": "custom.lineStyle",
                 "value": {
-                  "dash": [
-                    0,
-                    10
-                  ],
-                  "fill": "dot"
+                  "fill": "solid"
                 }
               },
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "#7cb1b9",
+                  "fixedColor": "#f0e1b4",
                   "mode": "fixed"
                 }
               }
@@ -2572,7 +2579,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "node_filesystem_size_bytes{instance=\"$node\",device!~'rootfs'} - node_filesystem_avail_bytes{instance=\"$node\",device!~'rootfs'}",
+          "expr": "node_filesystem_size_bytes{job=\"$job\", instance=\"$node\",device!~'rootfs'} - node_filesystem_avail_bytes{job=\"$job\", instance=\"$node\",device!~'rootfs'}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{mountpoint}}",
@@ -2655,178 +2662,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Apps"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#629E51",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Buffers"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#614D93",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Cache"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#6D1F62",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Cached"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#511749",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Committed"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#508642",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Free"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#0A437C",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Hardware Corrupted - Amount of RAM that the kernel identified as corrupted / not working"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#CFFAFF",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Inactive"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#584477",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "PageTables"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#0A50A1",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Page_Tables"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#0A50A1",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "RAM_Free"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#E0F9D7",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
               "options": "SWAP Used"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "#BF1B00",
+                  "fixedColor": "#ffb6c1",
                   "mode": "fixed"
                 }
               },
@@ -2843,96 +2685,6 @@
               {
                 "id": "custom.fillOpacity",
                 "value": 30
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Slab"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#806EB7",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Slab_Cache"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#E0752D",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Swap"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#BF1B00",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Swap Used"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#BF1B00",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Swap_Cache"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#C15C17",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Swap_Free"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#2F575E",
-                  "mode": "fixed"
-                }
               }
             ]
           },
@@ -2997,7 +2749,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "semi-dark-orange",
+                  "fixedColor": "#ff9966",
                   "mode": "fixed"
                 }
               }
@@ -3012,7 +2764,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "green",
+                  "fixedColor": "#73bf69",
                   "mode": "fixed"
                 }
               },
@@ -3039,7 +2791,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "#79329d",
+                  "fixedColor": "#b491dc",
                   "mode": "fixed",
                   "seriesBy": "last"
                 }
@@ -3220,7 +2972,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3559,7 +3312,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3638,7 +3392,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Available"
+              "options": "Avail."
             },
             "properties": [
               {
@@ -3657,7 +3411,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "light-red"
+                      "color": "light-red",
+                      "value": null
                     },
                     {
                       "color": "light-orange",
@@ -3746,7 +3501,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "node_filesystem_size_bytes{instance=\"$node\", fstype=~\"ext.*|xfs|nfs\", mountpoint !~\".*pod.*\"} - 0",
+          "expr": "node_filesystem_size_bytes{job=\"$job\", instance=\"$node\", fstype=~\"ext.*|xfs|nfs\", mountpoint !~\".*pod.*\"} - 0",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -3760,7 +3515,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "node_filesystem_avail_bytes {instance=\"$node\", fstype=~\"ext.*|xfs|nfs\", mountpoint !~\".*pod.*\"} - 0",
+          "expr": "node_filesystem_avail_bytes{job=\"$job\", instance=\"$node\", fstype=~\"ext.*|xfs|nfs\", mountpoint !~\".*pod.*\"} - 0",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -3775,7 +3530,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(node_filesystem_size_bytes{instance=\"$node\", fstype=~\"ext.*|xfs|nfs\", mountpoint !~\".*pod.*\"} \n- node_filesystem_free_bytes{instance=\"$node\", fstype=~\"ext.*|xfs|nfs\", mountpoint !~\".*pod.*\"})\n* 100 / node_filesystem_size_bytes{instance=\"$node\", fstype=~\"ext.*|xfs|nfs\", mountpoint !~\".*pod.*\"}",
+          "expr": "(node_filesystem_size_bytes{job=\"$job\", instance=\"$node\", fstype=~\"ext.*|xfs|nfs\", mountpoint !~\".*pod.*\"} \n- node_filesystem_free_bytes{job=\"$job\", instance=\"$node\", fstype=~\"ext.*|xfs|nfs\", mountpoint !~\".*pod.*\"})\n* 100 / node_filesystem_size_bytes{job=\"$job\", instance=\"$node\", fstype=~\"ext.*|xfs|nfs\", mountpoint !~\".*pod.*\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -3799,7 +3554,7 @@
             "renameByName": {
               "Time": "",
               "Value #A": "Total",
-              "Value #B": "Available",
+              "Value #B": "Avail.",
               "Value #C": "Usage",
               "device": "Device",
               "fstype": "Type",
@@ -3816,10 +3571,10 @@
               "names": [
                 "Device",
                 "Type",
+                "Mount",
                 "Total",
-                "Available",
                 "Usage",
-                "Mount"
+                "Avail."
               ]
             }
           }
@@ -3877,7 +3632,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3983,7 +3739,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "irate(node_disk_read_bytes_total{instance=\"$node\"}[$__rate_interval])",
+          "expr": "irate(node_disk_read_bytes_total{job=\"$job\", instance=\"$node\"}[$__rate_interval])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{device}}_read",
@@ -3997,7 +3753,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "irate(node_disk_written_bytes_total{instance=\"$node\"}[$__rate_interval])",
+          "expr": "irate(node_disk_written_bytes_total{job=\"$job\", instance=\"$node\"}[$__rate_interval])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{device}}_write",
@@ -4025,7 +3781,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -4114,7 +3871,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(time() - node_boot_time_seconds{instance=\"$node\"})",
+          "expr": "avg(time() - node_boot_time_seconds{job=\"$job\", instance=\"$node\"})",
           "instant": false,
           "legendFormat": "⏱️ Uptime",
           "range": true,
@@ -4126,7 +3883,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "count(node_cpu_seconds_total{instance=\"$node\", mode='system'})",
+          "expr": "count(node_cpu_seconds_total{job=\"$job\", instance=\"$node\", mode='system'})",
           "hide": false,
           "instant": false,
           "legendFormat": "💎 Core(s)",
@@ -4139,7 +3896,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(node_filesystem_size_bytes{instance=\"$node\",fstype=~\"ext.?|xfs\"})",
+          "expr": "max(node_filesystem_size_bytes{job=\"$job\", instance=\"$node\",fstype=~\"ext.?|xfs\"})",
           "hide": false,
           "instant": false,
           "legendFormat": "💾 Disk Size",
@@ -4152,7 +3909,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(node_memory_MemTotal_bytes{instance=\"$node\"})",
+          "expr": "sum(node_memory_MemTotal_bytes{job=\"$job\", instance=\"$node\"})",
           "hide": false,
           "instant": false,
           "legendFormat": "🫙 Memory Total",
@@ -4212,7 +3969,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -4480,7 +4238,7 @@
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 16,
         "x": 0,
         "y": 35
@@ -4510,7 +4268,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "node_netstat_Tcp_CurrEstab{instance=\"$node\"}",
+          "expr": "node_netstat_Tcp_CurrEstab{job=\"$job\", instance=\"$node\"}",
           "interval": "",
           "legendFormat": "CurrEstab",
           "range": true,
@@ -4522,7 +4280,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "irate(node_netstat_Tcp_RetransSegs{instance=\"$node\"}[$__rate_interval])",
+          "expr": "irate(node_netstat_Tcp_RetransSegs{job=\"$job\", instance=\"$node\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Tcp_RetransSegs",
           "range": true,
@@ -4534,7 +4292,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "node_sockstat_sockets_used{instance=\"$node\"}",
+          "expr": "node_sockstat_sockets_used{job=\"$job\", instance=\"$node\"}",
           "hide": false,
           "legendFormat": "sockets_used",
           "range": true,
@@ -4546,7 +4304,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "irate(node_netstat_Tcp_InSegs{instance=\"$node\"}[$__rate_interval])",
+          "expr": "irate(node_netstat_Tcp_InSegs{job=\"$job\", instance=\"$node\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Tcp_InSegs",
           "range": true,
@@ -4558,7 +4316,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "irate(node_netstat_Tcp_OutSegs{instance=\"$node\"}[$__rate_interval])",
+          "expr": "irate(node_netstat_Tcp_OutSegs{job=\"$job\", instance=\"$node\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Tcp_OutSegs",
           "range": true,
@@ -4570,7 +4328,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "node_sockstat_TCP_tw{instance=\"$node\"}",
+          "expr": "node_sockstat_TCP_tw{job=\"$job\", instance=\"$node\"}",
           "hide": false,
           "legendFormat": "TCP_tw",
           "range": true,
@@ -4582,7 +4340,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "irate(node_netstat_TcpExt_ListenDrops{instance=\"$node\"}[$__rate_interval])",
+          "expr": "irate(node_netstat_TcpExt_ListenDrops{job=\"$job\", instance=\"$node\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "TcpExt_ListenDrops",
           "range": true,
@@ -4594,7 +4352,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "node_sockstat_UDP_inuse{instance=\"$node\"}",
+          "expr": "node_sockstat_UDP_inuse{job=\"$job\", instance=\"$node\"}",
           "hide": false,
           "legendFormat": "UDP_inuse",
           "range": true,
@@ -4613,7 +4371,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "palette-classic-by-name"
           },
           "custom": {
             "axisBorderShow": false,
@@ -4654,7 +4412,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -5041,11 +4800,30 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*lo/"
+            },
+            "properties": [
+              {
+                "id": "custom.fillOpacity",
+                "value": 30
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#d3ded5",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 8,
         "x": 16,
         "y": 35
@@ -5071,7 +4849,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "irate(node_network_receive_bytes_total{instance=\"$node\"}[$__rate_interval]) * 8",
+          "expr": "irate(node_network_receive_bytes_total{job=\"$job\", instance=\"$node\"}[$__rate_interval]) * 8",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "recv {{device}}",
@@ -5085,7 +4863,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "irate(node_network_transmit_bytes_total{instance=\"$node\"}[$__rate_interval]) * 8",
+          "expr": "irate(node_network_transmit_bytes_total{job=\"$job\", instance=\"$node\"}[$__rate_interval]) * 8",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "trans {{device}} ",
@@ -5125,15 +4903,14 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "",
+        "definition": "label_values(node_uname_info{job=\"$job\"}, instance)",
         "includeAll": false,
-        "label": "Job",
-        "multi": true,
-        "name": "job",
+        "label": "Host",
+        "name": "node",
         "options": [],
         "query": {
-          "query": "label_values(node_uname_info, job)",
-          "refId": "Prometheus-job-Variable-Query"
+          "query": "label_values(node_uname_info{job=\"$job\"}, instance)",
+          "refId": "Prometheus-node-Variable-Query"
         },
         "refresh": 1,
         "regex": "",
@@ -5144,16 +4921,17 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${datasource}"
+          "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "label_values(node_uname_info{job=\"$job\"}, instance)",
+        "definition": "",
         "includeAll": false,
-        "label": "Host",
-        "name": "node",
+        "label": "Job",
+        "multi": true,
+        "name": "job",
         "options": [],
         "query": {
-          "query": "label_values(node_uname_info{job=\"$job\"}, instance)",
-          "refId": "Prometheus-node-Variable-Query"
+          "query": "label_values(node_uname_info, job)",
+          "refId": "Prometheus-job-Variable-Query"
         },
         "refresh": 1,
         "regex": "",
@@ -5181,13 +4959,13 @@
     ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Node Information",
   "uid": "NodeExpt",
-  "version": 97,
+  "version": 79,
   "weekStart": ""
 }
