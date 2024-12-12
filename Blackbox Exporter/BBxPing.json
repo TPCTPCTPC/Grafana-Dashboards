@@ -27,7 +27,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "11.3.1"
+      "version": "11.4.0"
     },
     {
       "type": "datasource",
@@ -180,7 +180,7 @@
         "textMode": "value_and_name",
         "wideLayout": false
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -282,7 +282,7 @@
         "content": "<h4>PING | DESTINATION <sup>$ip</sup></h4>\n<p style=\"font-size: 13px;\">$job → <strong>$city</strong></p>",
         "mode": "html"
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "type": "text"
     },
     {
@@ -302,7 +302,7 @@
         "content": "<h4>LIVE MAP <sup>$ip</sup></h4>\n<div style=\"display: flex; align-items: center;\">\n  <span style=\"font-size: 10px;\"><strong>0 ms</strong></span>\n  <div style=\"width: 20%; height: 5px; background: linear-gradient(to right, #6CA556, #D3A741, #CA4651); border-radius: 5px; margin: 0 10px; display: flex; align-items: center; justify-content: center;\"></div>\n  <span style=\"font-size: 10px;\"><strong>300 ms</strong></span>\n</div>",
         "mode": "html"
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "type": "text"
     },
     {
@@ -725,7 +725,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -760,7 +760,17 @@
             }
           },
           "fieldMinMax": false,
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0.5": {
+                  "index": 0,
+                  "text": "TO"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "max": 0.3,
           "min": 0,
           "thresholds": {
@@ -910,7 +920,7 @@
           "zoom": 2.5
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -919,7 +929,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(probe_duration_seconds{job=\"$job\", ip=\"$ip\"} > 0 and probe_duration_seconds < 1) by (code,city)",
+          "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\", ip=\"$ip\"}) by (code, city), 0.5)",
           "format": "table",
           "instant": true,
           "legendFormat": "{{code}}",
@@ -974,7 +984,17 @@
             }
           },
           "fieldMinMax": false,
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0.5": {
+                  "index": 0,
+                  "text": "TO"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "max": 0.3,
           "min": 0,
           "thresholds": {
@@ -1113,7 +1133,7 @@
           "zoom": 1.5
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1122,7 +1142,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(probe_duration_seconds{job=\"$job\", ip=\"$ip\"} > 0 and probe_duration_seconds < 1) by (code,city)",
+          "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\", ip=\"$ip\"}) by (code, city), 0.5)",
           "format": "table",
           "instant": true,
           "legendFormat": "{{code}}",
@@ -1283,7 +1303,7 @@
         "showHeader": false,
         "sortBy": []
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1362,7 +1382,17 @@
             }
           },
           "fieldMinMax": false,
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0.5": {
+                  "index": 0,
+                  "text": "TO"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "max": 0.3,
           "min": 0,
           "thresholds": {
@@ -1501,7 +1531,7 @@
           "zoom": 3
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1510,7 +1540,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(probe_duration_seconds{job=\"$job\", ip=\"$ip\"} > 0 and probe_duration_seconds < 1) by (code,city)",
+          "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\", ip=\"$ip\"}) by (code, city), 0.5)",
           "format": "table",
           "instant": true,
           "legendFormat": "{{code}}",
@@ -1565,7 +1595,17 @@
             }
           },
           "fieldMinMax": false,
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0.5": {
+                  "index": 0,
+                  "text": "TO"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "max": 0.3,
           "min": 0,
           "thresholds": {
@@ -1705,7 +1745,7 @@
           "zoom": 2
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1714,7 +1754,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(probe_duration_seconds{job=\"$job\", ip=\"$ip\"} > 0 and probe_duration_seconds < 1) by (code,city)",
+          "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\", ip=\"$ip\"}) by (code, city), 0.5)",
           "format": "table",
           "instant": true,
           "legendFormat": "{{code}}",
@@ -1923,7 +1963,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1958,7 +1998,7 @@
         "content": "<h4>PING | ISP <sup>$ip</sup></h4>\n<p style=\"font-size: 13px;\">$job → <strong>$isp</strong></p>",
         "mode": "html"
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "type": "text"
     },
     {
@@ -1978,7 +2018,7 @@
         "content": "<h4>PACKET LOSS RATE <sup>$ip</sup></h4>\n<p style=\"font-size: 13px;\">$job → <strong>$city</strong></p>",
         "mode": "html"
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "type": "text"
     },
     {
@@ -2148,7 +2188,7 @@
           "zoom": 3
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2308,7 +2348,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2747,7 +2787,7 @@
         "xTickLabelRotation": 0,
         "xTickLabelSpacing": 100
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2862,7 +2902,7 @@
         "textMode": "value_and_name",
         "wideLayout": true
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2890,34 +2930,20 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "fixedColor": "transparent",
+            "mode": "continuous-BlYlRd"
           },
           "decimals": 2,
           "fieldMinMax": false,
           "mappings": [],
           "max": 100,
+          "min": -10,
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
-                "color": "#3d5b9b",
+                "color": "#c1e6c1",
                 "value": null
-              },
-              {
-                "color": "#4564a3",
-                "value": 1
-              },
-              {
-                "color": "#6c5c9d",
-                "value": 5
-              },
-              {
-                "color": "#8264a0",
-                "value": 10
-              },
-              {
-                "color": "#a0738c",
-                "value": 20
               }
             ]
           },
@@ -2947,9 +2973,9 @@
         },
         "showPercentChange": false,
         "textMode": "value_and_name",
-        "wideLayout": true
+        "wideLayout": false
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3130,7 +3156,7 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "BBxPing",
+  "title": "◾️ BBxPing",
   "uid": "BlackboxExpt",
   "version": 1,
   "weekStart": ""
