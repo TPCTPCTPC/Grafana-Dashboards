@@ -13,6 +13,12 @@
   "__requires": [
     {
       "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
+      "type": "panel",
       "id": "geomap",
       "name": "Geomap",
       "version": ""
@@ -33,12 +39,6 @@
       "type": "panel",
       "id": "stat",
       "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "state-timeline",
-      "name": "State timeline",
       "version": ""
     },
     {
@@ -76,7 +76,7 @@
       }
     ]
   },
-  "description": "An aesthetic dashboard for Blackbox Exporter, featuring ICMP ping and packet loss rate monitoring.",
+  "description": "[v1.5] 1. Let’s light up the map:) / 2. Multiple improvements.",
   "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -157,8 +157,8 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
-        "w": 2,
+        "h": 4,
+        "w": 4,
         "x": 0,
         "y": 0
       },
@@ -191,111 +191,11 @@
           "exemplar": false,
           "expr": "avg(probe_duration_seconds{job=\"$job\", city=\"$city\", ip=\"$ip\"} > 0 and probe_duration_seconds < 1)",
           "format": "table",
-          "instant": false,
+          "instant": true,
           "legendFormat": "{{city}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "Value"
-              ]
-            }
-          }
+          "range": false,
+          "refId": "DESTINATION"
         },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "Value": "🏙️ $city",
-              "code": "📍"
-            }
-          }
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "max": 0.35,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#394f70",
-                "value": null
-              },
-              {
-                "color": "#3d5b9b",
-                "value": 0.01
-              },
-              {
-                "color": "#4564a3",
-                "value": 0.05
-              },
-              {
-                "color": "#6c5c9d",
-                "value": 0.1
-              },
-              {
-                "color": "#8264a0",
-                "value": 0.2
-              },
-              {
-                "color": "#a0738c",
-                "value": 0.25
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 2,
-        "x": 2,
-        "y": 0
-      },
-      "id": 35,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "inverted",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "value_and_name",
-        "wideLayout": false
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
         {
           "datasource": {
             "type": "prometheus",
@@ -303,25 +203,49 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(probe_duration_seconds{job=\"$job\", ip=\"$ip\", code!=\"ANYCAST\", domestic!=\"true\"} > 0.01 and probe_duration_seconds < 1)",
+          "expr": "avg(probe_duration_seconds{job=\"$job\", ip=\"$ip\", city!=\"\", domestic!=\"true\"} > 0.01 and probe_duration_seconds < 1)",
           "format": "table",
-          "instant": false,
-          "legendFormat": "{{code}}",
-          "range": true,
-          "refId": "A"
+          "hide": false,
+          "instant": true,
+          "legendFormat": "International",
+          "range": false,
+          "refId": "INTERNATIONAL"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg(probe_duration_seconds{job=\"$job\", isp=\"$isp\", ip=\"$ip\"} > 0 and probe_duration_seconds < 1)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "{{isp}}",
+          "range": false,
+          "refId": "ISP"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg(1 > probe_duration_seconds{job=\"$job\",code=\"ANYCAST\",ip=\"$ip\"} > 0)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "ANYCAST",
+          "range": false,
+          "refId": "ANYCAST"
         }
       ],
       "transformations": [
         {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "code",
-                "Value"
-              ]
-            }
-          }
+          "id": "merge",
+          "options": {}
         },
         {
           "id": "organize",
@@ -330,8 +254,10 @@
             "includeByName": {},
             "indexByName": {},
             "renameByName": {
-              "Value": "🌍 International",
-              "code": "📍"
+              "Value #ANYCAST": "🛰️ Anycast",
+              "Value #DESTINATION": "🏙️ $city",
+              "Value #INTERNATIONAL": "🌍 International",
+              "Value #ISP": "📶 $isp"
             }
           }
         }
@@ -339,9 +265,10 @@
       "type": "stat"
     },
     {
+      "description": "<p>This dashboard is created by <strong>@SLOMO</strong> / <a href=\"https://github.com/TPCTPCTPC/Grafana-Dashboards\" target=\"_blank\">TPCTPCTPC@GitHub</a></p>",
       "gridPos": {
         "h": 2,
-        "w": 12,
+        "w": 11,
         "x": 4,
         "y": 0
       },
@@ -352,7 +279,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<h4>| DESTINATION <sup>$ip</sup></h4>\n<p>&nbsp;&nbsp;&nbsp;$job → <strong>$city</strong></p>",
+        "content": "<h4>PING | DESTINATION <sup>$ip</sup></h4>\n<p style=\"font-size: 13px;\">$job → <strong>$city</strong></p>",
         "mode": "html"
       },
       "pluginVersion": "11.3.1",
@@ -361,8 +288,8 @@
     {
       "gridPos": {
         "h": 2,
-        "w": 8,
-        "x": 16,
+        "w": 9,
+        "x": 15,
         "y": 0
       },
       "id": 7,
@@ -372,242 +299,11 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<h4>| WORLD <sup>$ip</sup></h4>\n<p>&nbsp;&nbsp;&nbsp;$job → <strong>Global Cities</strong></p>",
+        "content": "<h4>LIVE MAP <sup>$ip</sup></h4>\n<div style=\"display: flex; align-items: center;\">\n  <span style=\"font-size: 10px;\"><strong>0 ms</strong></span>\n  <div style=\"width: 20%; height: 5px; background: linear-gradient(to right, #6CA556, #D3A741, #CA4651); border-radius: 5px; margin: 0 10px; display: flex; align-items: center; justify-content: center;\"></div>\n  <span style=\"font-size: 10px;\"><strong>300 ms</strong></span>\n</div>",
         "mode": "html"
       },
       "pluginVersion": "11.3.1",
       "type": "text"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "max": 0.35,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#394f70",
-                "value": null
-              },
-              {
-                "color": "#3d5b9b",
-                "value": 0.01
-              },
-              {
-                "color": "#4564a3",
-                "value": 0.05
-              },
-              {
-                "color": "#6c5c9d",
-                "value": 0.1
-              },
-              {
-                "color": "#8264a0",
-                "value": 0.2
-              },
-              {
-                "color": "#a0738c",
-                "value": 0.25
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 2,
-        "x": 0,
-        "y": 2
-      },
-      "id": 41,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "inverted",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "value_and_name",
-        "wideLayout": false
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "avg(probe_duration_seconds{job=\"$job\", isp=\"$isp\", ip=\"$ip\"} > 0 and probe_duration_seconds < 1)",
-          "format": "table",
-          "instant": false,
-          "legendFormat": "{{city}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "Value",
-                "city"
-              ]
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "Value": "📶 $isp",
-              "city": "",
-              "code": "📍"
-            }
-          }
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "max": 0.35,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#394f70",
-                "value": null
-              },
-              {
-                "color": "#3d5b9b",
-                "value": 0.01
-              },
-              {
-                "color": "#4564a3",
-                "value": 0.05
-              },
-              {
-                "color": "#6c5c9d",
-                "value": 0.1
-              },
-              {
-                "color": "#8264a0",
-                "value": 0.2
-              },
-              {
-                "color": "#a0738c",
-                "value": 0.25
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 2,
-        "x": 2,
-        "y": 2
-      },
-      "id": 76,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "inverted",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "value_and_name",
-        "wideLayout": false
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "avg(1 > probe_duration_seconds{job=\"$job\",code=\"ANYCAST\",ip=\"$ip\"} > 0)",
-          "format": "table",
-          "instant": false,
-          "legendFormat": "{{code}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "code",
-                "Value"
-              ]
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "Value": "🛰️ Anycast",
-              "code": "📍"
-            }
-          }
-        }
-      ],
-      "type": "stat"
     },
     {
       "datasource": {
@@ -626,7 +322,7 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "axisSoftMax": 0.25,
+            "axisSoftMax": 0.02,
             "axisSoftMin": 0,
             "axisWidth": 50,
             "barAlignment": 0,
@@ -675,31 +371,15 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byValue",
-              "options": {
-                "op": "lt",
-                "reducer": "variance",
-                "value": 0.02
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.axisSoftMax",
-                "value": 0.02
-              }
-            ]
-          },
-          {
-            "matcher": {
               "id": "byRegexp",
-              "options": "/.*CT|电信|China Telecom/"
+              "options": "/(^|\\W)CT($|\\W)|电信|China Telecom/"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
                   "fixedColor": "#1c4597",
-                  "mode": "fixed"
+                  "mode": "shades"
                 }
               }
             ]
@@ -707,13 +387,103 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": "/.*CU|联通|China Unicom/"
+              "options": "/(^|\\W)CU($|\\W)|联通|China Unicom/"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
                   "fixedColor": "#cb2e34",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)CM($|\\W)|移动|China Mobile/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#99ba46",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)CE($|\\W)|教育网|CERNET/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#e6a064",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)NTT($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#5483b6",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(OCN|DOCOMO|docomo)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#cf0f30",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(KDDI|au Hikari)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#eb5505",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)NURO|So-net($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#000000",
                   "mode": "fixed"
                 }
               }
@@ -722,13 +492,208 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": "/.*CM|移动|China Mobile/"
+              "options": "/(^|\\W)ARTERIA($|\\W)/"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "#99ba46",
+                  "fixedColor": "#ee0077",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)BIGLOBE($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#008cd7",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)SoftBank|BBTEC($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#abafb0",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)IIJ/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#5b65a2",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)OPTAGE|eo Hikari($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#0195a1",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)GMO($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#fabe00",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)Rakuten($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ff008c",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(J:COM|JCOM)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#e73219",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)ORACLE|Oracle($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#c74634",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(AMAZON|Amazon|AWS)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#f19e38",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(GOOGLE|GCP|Google|8.8.8.8)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#4285f3",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(Azure|AZ|Microsoft)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#69c7ef",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(ALIBABA|Alibaba|Aliyun)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ff6701",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(HE|H.E.|H. E. |Hurricane)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#000066",
                   "mode": "fixed"
                 }
               }
@@ -738,7 +703,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 11,
         "x": 4,
         "y": 2
       },
@@ -752,7 +717,7 @@
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
-          "sortBy": "Last *",
+          "sortBy": "Mean",
           "sortDesc": true
         },
         "tooltip": {
@@ -785,7 +750,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-BlYlRd"
+            "mode": "continuous-GrYlRd"
           },
           "custom": {
             "hideFrom": {
@@ -796,7 +761,7 @@
           },
           "fieldMinMax": false,
           "mappings": [],
-          "max": 0.35,
+          "max": 0.3,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -804,34 +769,6 @@
               {
                 "color": "#394f70",
                 "value": null
-              },
-              {
-                "color": "#3d5b9b",
-                "value": 0.01
-              },
-              {
-                "color": "#506eaa",
-                "value": 0.04
-              },
-              {
-                "color": "#505a96",
-                "value": 0.08
-              },
-              {
-                "color": "#8264a0",
-                "value": 0.12
-              },
-              {
-                "color": "#a0738c",
-                "value": 0.15
-              },
-              {
-                "color": "#c88c6e",
-                "value": 0.2
-              },
-              {
-                "color": "#d76e5a",
-                "value": 0.25
               }
             ]
           },
@@ -842,7 +779,7 @@
       "gridPos": {
         "h": 5,
         "w": 5,
-        "x": 16,
+        "x": 15,
         "y": 2
       },
       "id": 25,
@@ -884,8 +821,7 @@
                   "mode": "mod"
                 },
                 "size": {
-                  "field": "Value",
-                  "fixed": 2.5,
+                  "fixed": 4,
                   "max": 7.5,
                   "min": 2
                 },
@@ -904,8 +840,8 @@
                 },
                 "textConfig": {
                   "fontSize": 12.5,
-                  "offsetX": 4,
-                  "offsetY": -4,
+                  "offsetX": -2,
+                  "offsetY": -2,
                   "textAlign": "right",
                   "textBaseline": "bottom"
                 }
@@ -932,8 +868,32 @@
             },
             "name": "Solar",
             "opacity": 0.5,
-            "tooltip": false,
+            "tooltip": true,
             "type": "dayNight"
+          },
+          {
+            "config": {
+              "blur": 25,
+              "radius": 25,
+              "weight": {
+                "fixed": 0.25,
+                "max": 1,
+                "min": 0
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Lights",
+            "opacity": 0.25,
+            "tooltip": false,
+            "type": "heatmap"
           }
         ],
         "tooltip": {
@@ -1004,7 +964,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-BlYlRd"
+            "mode": "continuous-GrYlRd"
           },
           "custom": {
             "hideFrom": {
@@ -1015,7 +975,7 @@
           },
           "fieldMinMax": false,
           "mappings": [],
-          "max": 0.35,
+          "max": 0.3,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -1023,34 +983,6 @@
               {
                 "color": "#394f70",
                 "value": null
-              },
-              {
-                "color": "#3d5b9b",
-                "value": 0.01
-              },
-              {
-                "color": "#506eaa",
-                "value": 0.04
-              },
-              {
-                "color": "#505a96",
-                "value": 0.08
-              },
-              {
-                "color": "#8264a0",
-                "value": 0.12
-              },
-              {
-                "color": "#a0738c",
-                "value": 0.15
-              },
-              {
-                "color": "#c88c6e",
-                "value": 0.2
-              },
-              {
-                "color": "#d76e5a",
-                "value": 0.25
               }
             ]
           },
@@ -1060,8 +992,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 3,
-        "x": 21,
+        "w": 4,
+        "x": 20,
         "y": 2
       },
       "id": 80,
@@ -1141,6 +1073,30 @@
             "name": "Average RTT",
             "tooltip": true,
             "type": "markers"
+          },
+          {
+            "config": {
+              "blur": 25,
+              "radius": 25,
+              "weight": {
+                "fixed": 0.25,
+                "max": 1,
+                "min": 0
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Lights",
+            "opacity": 0.25,
+            "tooltip": false,
+            "type": "heatmap"
           }
         ],
         "tooltip": {
@@ -1152,9 +1108,9 @@
           "lastOnly": false,
           "lat": 40,
           "layer": "Layer 1",
-          "lon": -100,
+          "lon": -105,
           "padding": 0,
-          "zoom": 1
+          "zoom": 1.5
         }
       },
       "pluginVersion": "11.3.1",
@@ -1208,6 +1164,7 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
+      "description": "<p>This dashboard is created by <strong>@SLOMO</strong> / <a href=\"https://github.com/TPCTPCTPC/Grafana-Dashboards\" target=\"_blank\">TPCTPCTPC@GitHub</a></p>",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1264,10 +1221,6 @@
             },
             "properties": [
               {
-                "id": "custom.width",
-                "value": 140
-              },
-              {
                 "id": "custom.align",
                 "value": "left"
               },
@@ -1296,7 +1249,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 60
+                "value": 55
               },
               {
                 "id": "custom.cellOptions",
@@ -1339,15 +1292,15 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(probe_duration_seconds{job=\"$job\", code!=\"ANYCAST\", ip=\"$ip\"} > 0 and probe_duration_seconds < 1) by (code,city)",
+          "expr": "avg(probe_duration_seconds{job=\"$job\", city!=\"\", ip=\"$ip\"} > 0 and probe_duration_seconds < 1) by (city)",
           "format": "table",
           "instant": true,
-          "legendFormat": "{{code}}",
+          "legendFormat": "{{city}}",
           "range": false,
           "refId": "A"
         }
       ],
-      "title": "| Average RTT ",
+      "title": "| Avg. Global RTT ",
       "transformations": [
         {
           "id": "filterFieldsByName",
@@ -1399,7 +1352,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-BlYlRd"
+            "mode": "continuous-GrYlRd"
           },
           "custom": {
             "hideFrom": {
@@ -1410,7 +1363,7 @@
           },
           "fieldMinMax": false,
           "mappings": [],
-          "max": 0.35,
+          "max": 0.3,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -1418,34 +1371,6 @@
               {
                 "color": "#394f70",
                 "value": null
-              },
-              {
-                "color": "#3d5b9b",
-                "value": 0.01
-              },
-              {
-                "color": "#506eaa",
-                "value": 0.04
-              },
-              {
-                "color": "#505a96",
-                "value": 0.08
-              },
-              {
-                "color": "#8264a0",
-                "value": 0.12
-              },
-              {
-                "color": "#a0738c",
-                "value": 0.15
-              },
-              {
-                "color": "#c88c6e",
-                "value": 0.2
-              },
-              {
-                "color": "#d76e5a",
-                "value": 0.25
               }
             ]
           },
@@ -1455,8 +1380,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
-        "x": 16,
+        "w": 4,
+        "x": 15,
         "y": 7
       },
       "id": 28,
@@ -1536,6 +1461,30 @@
             "name": "Average RTT",
             "tooltip": true,
             "type": "markers"
+          },
+          {
+            "config": {
+              "blur": 25,
+              "radius": 25,
+              "weight": {
+                "fixed": 0.25,
+                "max": 1,
+                "min": 0
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Lights",
+            "opacity": 0.25,
+            "tooltip": false,
+            "type": "heatmap"
           }
         ],
         "tooltip": {
@@ -1545,9 +1494,9 @@
           "allLayers": false,
           "id": "coords",
           "lastOnly": false,
-          "lat": 8,
+          "lat": -1,
           "layer": "Layer 1",
-          "lon": 105,
+          "lon": 113,
           "padding": 0,
           "zoom": 3
         }
@@ -1606,7 +1555,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-BlYlRd"
+            "mode": "continuous-GrYlRd"
           },
           "custom": {
             "hideFrom": {
@@ -1617,7 +1566,7 @@
           },
           "fieldMinMax": false,
           "mappings": [],
-          "max": 0.35,
+          "max": 0.3,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -1625,34 +1574,6 @@
               {
                 "color": "#394f70",
                 "value": null
-              },
-              {
-                "color": "#3d5b9b",
-                "value": 0.01
-              },
-              {
-                "color": "#506eaa",
-                "value": 0.04
-              },
-              {
-                "color": "#505a96",
-                "value": 0.08
-              },
-              {
-                "color": "#8264a0",
-                "value": 0.12
-              },
-              {
-                "color": "#a0738c",
-                "value": 0.15
-              },
-              {
-                "color": "#c88c6e",
-                "value": 0.2
-              },
-              {
-                "color": "#d76e5a",
-                "value": 0.25
               }
             ]
           },
@@ -1743,6 +1664,30 @@
             "name": "Average RTT",
             "tooltip": true,
             "type": "markers"
+          },
+          {
+            "config": {
+              "blur": 25,
+              "radius": 25,
+              "weight": {
+                "fixed": 0.25,
+                "max": 1,
+                "min": 0
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Lights",
+            "opacity": 0.25,
+            "tooltip": false,
+            "type": "heatmap"
           }
         ],
         "tooltip": {
@@ -1885,13 +1830,13 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": "/.*Google|GOOGLE|8.8.8.8/"
+              "options": "/.*Quad9|QUAD9|9.9.9.9/"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "#3484f0",
+                  "fixedColor": "#ca375f",
                   "mode": "fixed"
                 }
               }
@@ -1900,13 +1845,58 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": "/.*Quad9|QUAD9|9.9.9.9/"
+              "options": "/(^|\\W)(GOOGLE|GCP|Google|8.8.8.8)($|\\W)/"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "#ca375f",
+                  "fixedColor": "#4285f3",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(Azure|AZ|Microsoft)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#69c7ef",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(ALIBABA|Alibaba|Aliyun)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ff6701",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)NTT($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#3070b6",
                   "mode": "fixed"
                 }
               }
@@ -1951,9 +1941,10 @@
       "type": "timeseries"
     },
     {
+      "description": "<p>This dashboard is created by <strong>@SLOMO</strong> / <a href=\"https://github.com/TPCTPCTPC/Grafana-Dashboards\" target=\"_blank\">TPCTPCTPC@GitHub</a></p>",
       "gridPos": {
         "h": 2,
-        "w": 12,
+        "w": 11,
         "x": 4,
         "y": 10
       },
@@ -1964,7 +1955,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<h4>| INTERNET SERVICE PROVIDER <sup>$ip</sup></h4>\n<p>&nbsp;&nbsp;&nbsp;$job → <strong>$isp</strong></p>",
+        "content": "<h4>PING | ISP <sup>$ip</sup></h4>\n<p style=\"font-size: 13px;\">$job → <strong>$isp</strong></p>",
         "mode": "html"
       },
       "pluginVersion": "11.3.1",
@@ -1973,8 +1964,8 @@
     {
       "gridPos": {
         "h": 2,
-        "w": 8,
-        "x": 16,
+        "w": 9,
+        "x": 15,
         "y": 10
       },
       "id": 85,
@@ -1984,7 +1975,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<h4>| PACKET LOSS RATE <sup>$ip</sup></h4>\n<p>&nbsp;&nbsp;&nbsp;$job → <strong>$city</strong></p>",
+        "content": "<h4>PACKET LOSS RATE <sup>$ip</sup></h4>\n<p style=\"font-size: 13px;\">$job → <strong>$city</strong></p>",
         "mode": "html"
       },
       "pluginVersion": "11.3.1",
@@ -1998,7 +1989,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-BlYlRd"
+            "mode": "continuous-GrYlRd"
           },
           "custom": {
             "hideFrom": {
@@ -2009,8 +2000,18 @@
           },
           "decimals": 0,
           "fieldMinMax": false,
-          "mappings": [],
-          "max": 0.35,
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "index": 0,
+                  "text": "TO"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 0.3,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -2018,34 +2019,6 @@
               {
                 "color": "#394f70",
                 "value": null
-              },
-              {
-                "color": "#3d5b9b",
-                "value": 0.01
-              },
-              {
-                "color": "#506eaa",
-                "value": 0.04
-              },
-              {
-                "color": "#505a96",
-                "value": 0.08
-              },
-              {
-                "color": "#8264a0",
-                "value": 0.12
-              },
-              {
-                "color": "#a0738c",
-                "value": 0.15
-              },
-              {
-                "color": "#c88c6e",
-                "value": 0.2
-              },
-              {
-                "color": "#d76e5a",
-                "value": 0.25
               }
             ]
           },
@@ -2054,7 +2027,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
+        "h": 6,
         "w": 4,
         "x": 0,
         "y": 12
@@ -2069,7 +2042,7 @@
             "url": "https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png"
           },
           "name": "Layer 0",
-          "opacity": 1,
+          "opacity": 0.5,
           "tooltip": false,
           "type": "carto"
         },
@@ -2098,8 +2071,7 @@
                   "mode": "mod"
                 },
                 "size": {
-                  "field": "Value",
-                  "fixed": 2.5,
+                  "fixed": 4,
                   "max": 7.5,
                   "min": 2
                 },
@@ -2117,7 +2089,7 @@
                   "mode": "field"
                 },
                 "textConfig": {
-                  "fontSize": 12,
+                  "fontSize": 10.5,
                   "offsetY": -4,
                   "textAlign": "center",
                   "textBaseline": "bottom"
@@ -2136,6 +2108,30 @@
             "name": "ISP",
             "tooltip": true,
             "type": "markers"
+          },
+          {
+            "config": {
+              "blur": 25,
+              "radius": 25,
+              "weight": {
+                "fixed": 0.25,
+                "max": 1,
+                "min": 0
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Lights",
+            "opacity": 0.25,
+            "tooltip": false,
+            "type": "heatmap"
           }
         ],
         "tooltip": {
@@ -2161,7 +2157,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(probe_duration_seconds{job=\"$job\", isp=\"$isp\", ip=\"$ip\"} > 0 and probe_duration_seconds < 1) by (code,city)",
+          "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\", isp=\"$isp\", ip=\"$ip\"}) by (code,city), 1)",
           "format": "table",
           "instant": true,
           "legendFormat": "{{code}}",
@@ -2169,6 +2165,7 @@
           "refId": "A"
         }
       ],
+      "title": "| $isp",
       "transformations": [
         {
           "id": "filterFieldsByName",
@@ -2289,7 +2286,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 11,
         "x": 4,
         "y": 12
       },
@@ -2303,7 +2300,7 @@
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
-          "sortBy": "Last *",
+          "sortBy": "Mean",
           "sortDesc": true
         },
         "tooltip": {
@@ -2321,7 +2318,7 @@
           "editorMode": "code",
           "expr": "1 > probe_duration_seconds{job=\"$job\",isp=\"$isp\",ip=\"$ip\"} > 0",
           "interval": "",
-          "legendFormat": "{{city}}",
+          "legendFormat": "{{isp}} | {{city}}",
           "range": true,
           "refId": "A"
         }
@@ -2336,23 +2333,32 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-BlYlRd"
+            "mode": "palette-classic-by-name"
           },
           "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
             "fillOpacity": 70,
+            "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineWidth": 0,
-            "spanNulls": 600000
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "fieldMinMax": false,
           "mappings": [],
           "max": 100,
-          "min": -10,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -2364,30 +2370,382 @@
           },
           "unit": "percent"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsZero",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 1.5
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)CT($|\\W)|电信|China Telecom/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#1c4597",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)CU($|\\W)|联通|China Unicom/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#cb2e34",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)CM($|\\W)|移动|China Mobile/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#99ba46",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)CE($|\\W)|教育网|CERNET/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#e6a064",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)NTT($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#5483b6",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(OCN|DOCOMO|docomo)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#cf0f30",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(KDDI|au Hikari)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#eb5505",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)NURO|So-net($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#000000",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)ARTERIA($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ee0077",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)BIGLOBE($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#008cd7",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)SoftBank|BBTEC($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#abafb0",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)IIJ/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#5b65a2",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)OPTAGE|eo Hikari($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#0195a1",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)GMO($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#fabe00",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)Rakuten($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ff008c",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(J:COM|JCOM)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#e73219",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)ORACLE|Oracle($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#c74634",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(AMAZON|Amazon|AWS)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#f19e38",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(GOOGLE|GCP|Google|8.8.8.8)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#4285f3",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(Azure|AZ|Microsoft)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#69c7ef",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(ALIBABA|Alibaba|Aliyun)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ff6701",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(HE|H.E.|H. E.|Hurricane)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#000066",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 6,
-        "w": 8,
-        "x": 16,
+        "w": 9,
+        "x": 15,
         "y": 12
       },
       "id": 69,
       "options": {
-        "alignValue": "left",
+        "barRadius": 0.1,
+        "barWidth": 0.97,
+        "fullHighlight": true,
+        "groupWidth": 0.7,
         "legend": {
-          "displayMode": "table",
+          "calcs": [],
+          "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
-        "mergeValues": false,
-        "perPage": 3,
-        "rowHeight": 0.2,
+        "orientation": "auto",
         "showValue": "never",
+        "stacking": "none",
         "tooltip": {
           "mode": "multi",
           "sort": "none"
-        }
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
       },
       "pluginVersion": "11.3.1",
       "targets": [
@@ -2401,88 +2759,13 @@
           "expr": "(1 - avg_over_time(probe_success{job=\"$job\",city=\"$city\",ip=\"$ip\"}[1m])) * 100",
           "format": "time_series",
           "instant": false,
-          "interval": "",
+          "interval": "2m",
           "legendFormat": "{{name}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "type": "state-timeline"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "#aca787",
-            "mode": "fixed"
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "max": 0.35,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 4,
-        "x": 0,
-        "y": 17
-      },
-      "id": 87,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "name",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sort(clamp_max(avg(probe_duration_seconds{job=\"$job\", isp=\"$isp\", ip=\"$ip\"}) by (city), 1))",
-          "format": "time_series",
-          "instant": true,
-          "legendFormat": "{{city}}",
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "type": "stat"
+      "type": "barchart"
     },
     {
       "datasource": {
@@ -2502,7 +2785,7 @@
               "options": {
                 "1": {
                   "index": 0,
-                  "text": "Timeout"
+                  "text": "TO"
                 }
               },
               "type": "value"
@@ -2576,7 +2859,7 @@
           "values": false
         },
         "showPercentChange": false,
-        "textMode": "value",
+        "textMode": "value_and_name",
         "wideLayout": true
       },
       "pluginVersion": "11.3.1",
@@ -2607,23 +2890,34 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-BlYlRd"
+            "mode": "thresholds"
           },
-          "decimals": 1,
+          "decimals": 2,
           "fieldMinMax": false,
           "mappings": [],
           "max": 100,
-          "min": -10,
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
-                "color": "#aee4ca",
+                "color": "#3d5b9b",
                 "value": null
               },
               {
-                "color": "red",
+                "color": "#4564a3",
+                "value": 1
+              },
+              {
+                "color": "#6c5c9d",
+                "value": 5
+              },
+              {
+                "color": "#8264a0",
                 "value": 10
+              },
+              {
+                "color": "#a0738c",
+                "value": 20
               }
             ]
           },
@@ -2633,210 +2927,11 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 2,
-        "x": 16,
+        "w": 9,
+        "x": 15,
         "y": 18
       },
       "id": 81,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "same_as_value",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "value_and_name",
-        "wideLayout": false
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "clamp_min(1 - (sum(avg_over_time(probe_success{job=\"$job\",city=\"$city\",ip=\"$ip\"}[1m])) by (city, ip) / count(up{job=\"$job\",city=\"$city\",ip=\"$ip\"}) by (city, ip)), 0) * 100",
-          "format": "table",
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "isp",
-                "Value"
-              ]
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "Value": "1m",
-              "code": "📍"
-            }
-          }
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-BlYlRd"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "max": 100,
-          "min": -10,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 2,
-        "x": 18,
-        "y": 18
-      },
-      "id": 82,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "value_and_name",
-        "wideLayout": false
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "clamp_min(1 - (sum(avg_over_time(probe_success{job=\"$job\",city=\"$city\",ip=\"$ip\"}[30m])) by (city, ip) / count(up{job=\"$job\",city=\"$city\",ip=\"$ip\"}) by (city, ip)), 0) * 100",
-          "format": "table",
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "Value"
-              ]
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "Value": "30m",
-              "code": "📍"
-            }
-          }
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-BlYlRd"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "max": 100,
-          "min": -10,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 2,
-        "x": 20,
-        "y": 18
-      },
-      "id": 83,
       "options": {
         "colorMode": "background_solid",
         "graphMode": "area",
@@ -2852,10 +2947,39 @@
         },
         "showPercentChange": false,
         "textMode": "value_and_name",
-        "wideLayout": false
+        "wideLayout": true
       },
       "pluginVersion": "11.3.1",
       "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "clamp_min(1 - (sum(avg_over_time(probe_success{job=\"$job\",city=\"$city\",ip=\"$ip\"}[1h])) by (city, ip) / count(up{job=\"$job\",city=\"$city\",ip=\"$ip\"}) by (city, ip)), 0) * 100",
+          "format": "table",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "clamp_min(1 - (sum(avg_over_time(probe_success{job=\"$job\",city=\"$city\",ip=\"$ip\"}[12h])) by (city, ip) / count(up{job=\"$job\",city=\"$city\",ip=\"$ip\"}) by (city, ip)), 0) * 100",
+          "format": "table",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "B"
+        },
         {
           "datasource": {
             "type": "prometheus",
@@ -2865,19 +2989,27 @@
           "exemplar": false,
           "expr": "clamp_min(1 - (sum(avg_over_time(probe_success{job=\"$job\",city=\"$city\",ip=\"$ip\"}[1d])) by (city, ip) / count(up{job=\"$job\",city=\"$city\",ip=\"$ip\"}) by (city, ip)), 0) * 100",
           "format": "table",
-          "instant": true,
+          "hide": false,
+          "instant": false,
           "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
+          "range": true,
+          "refId": "C"
         }
       ],
       "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
         {
           "id": "filterFieldsByName",
           "options": {
             "include": {
               "names": [
-                "Value"
+                "Value #A",
+                "Value #B",
+                "Value #C",
+                "Value #D"
               ]
             }
           }
@@ -2889,106 +3021,11 @@
             "includeByName": {},
             "indexByName": {},
             "renameByName": {
-              "Value": "1d",
-              "code": "📍"
-            }
-          }
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-BlYlRd"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "max": 100,
-          "min": -10,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 2,
-        "x": 22,
-        "y": 18
-      },
-      "id": 84,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "value_and_name",
-        "wideLayout": false
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "clamp_min(1 - (sum(avg_over_time(probe_success{job=\"$job\",city=\"$city\",ip=\"$ip\"}[7d])) by (city, ip) / count(up{job=\"$job\",city=\"$city\",ip=\"$ip\"}) by (city, ip)), 0) * 100",
-          "format": "table",
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "Value"
-              ]
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "Value": "7d",
+              "Value": "1m",
+              "Value #A": "1h",
+              "Value #B": "12h",
+              "Value #C": "1d",
+              "Value #D": "7d",
               "code": "📍"
             }
           }
@@ -3088,7 +3125,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
