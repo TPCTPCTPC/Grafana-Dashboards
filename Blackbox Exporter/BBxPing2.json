@@ -99,7 +99,7 @@
   ],
   "panels": [
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -107,1808 +107,2005 @@
         "y": 0
       },
       "id": 115,
-      "panels": [
-        {
-          "description": "<p>This dashboard is created by <strong>@SLOMO</strong> / <a href=\"https://github.com/TPCTPCTPC/Grafana-Dashboards\" target=\"_blank\">TPCTPCTPC@GitHub</a></p>",
-          "fieldConfig": {
-            "defaults": {},
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 12,
-            "x": 0,
-            "y": 1
-          },
-          "id": 100,
-          "options": {
-            "code": {
-              "language": "plaintext",
-              "showLineNumbers": false,
-              "showMiniMap": false
-            },
-            "content": "<h5><strong>◾️ BBxPING MAP</strong> <sup>$ip</sup></h5>\n<div style=\"background: linear-gradient(to right, rgba(255, 255, 255, 0), #4564a3);\">\n  <p style=\"font-size: 13px;\"><strong>🔖 &nbsp;SRC | ${job}</strong></p>\n</div>",
-            "mode": "html"
-          },
-          "pluginVersion": "11.4.0",
-          "title": "",
-          "transparent": true,
-          "type": "text"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "continuous-GrYlRd"
-              },
-              "custom": {
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                }
-              },
-              "decimals": 1,
-              "fieldMinMax": false,
-              "mappings": [
-                {
-                  "options": {
-                    "1": {
-                      "index": 0,
-                      "text": "Timeout"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "max": 0.35,
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "#394f70"
-                  }
-                ]
-              },
-              "unit": "s"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 5,
-            "w": 12,
-            "x": 12,
-            "y": 1
-          },
-          "id": 25,
-          "options": {
-            "basemap": {
-              "config": {
-                "server": "world-imagery",
-                "showLabels": false,
-                "theme": "auto",
-                "url": "https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png"
-              },
-              "name": "Layer 0",
-              "opacity": 0.3,
-              "tooltip": false,
-              "type": "carto"
-            },
-            "controls": {
-              "mouseWheelZoom": false,
-              "showAttribution": false,
-              "showDebug": false,
-              "showMeasure": false,
-              "showScale": false,
-              "showZoom": false
-            },
-            "layers": [
-              {
-                "config": {
-                  "showLegend": false,
-                  "style": {
-                    "color": {
-                      "field": "Value",
-                      "fixed": "dark-blue"
-                    },
-                    "opacity": 1,
-                    "rotation": {
-                      "fixed": 0,
-                      "max": 360,
-                      "min": -360,
-                      "mode": "mod"
-                    },
-                    "size": {
-                      "fixed": 2.75,
-                      "max": 7.5,
-                      "min": 2
-                    },
-                    "symbol": {
-                      "fixed": "img/icons/marker/cross.svg",
-                      "mode": "fixed"
-                    },
-                    "symbolAlign": {
-                      "horizontal": "center",
-                      "vertical": "center"
-                    },
-                    "text": {
-                      "field": "⏳",
-                      "fixed": "",
-                      "mode": "fixed"
-                    },
-                    "textConfig": {
-                      "fontSize": 12.5,
-                      "offsetX": -2,
-                      "offsetY": -2,
-                      "textAlign": "right",
-                      "textBaseline": "bottom"
-                    }
-                  }
-                },
-                "filterData": {
-                  "id": "byRefId",
-                  "options": "A"
-                },
-                "location": {
-                  "gazetteer": "public/gazetteer/airports.geojson",
-                  "lookup": "code",
-                  "mode": "lookup"
-                },
-                "name": "Average RTT",
-                "tooltip": true,
-                "type": "markers"
-              },
-              {
-                "config": {
-                  "blur": 7.5,
-                  "radius": 10,
-                  "weight": {
-                    "fixed": 0.15,
-                    "max": 1,
-                    "min": 0
-                  }
-                },
-                "filterData": {
-                  "id": "byRefId",
-                  "options": "A"
-                },
-                "location": {
-                  "gazetteer": "public/gazetteer/airports.geojson",
-                  "lookup": "code",
-                  "mode": "lookup"
-                },
-                "name": "Lights",
-                "opacity": 0.75,
-                "tooltip": false,
-                "type": "heatmap"
-              }
-            ],
-            "tooltip": {
-              "mode": "details"
-            },
-            "view": {
-              "allLayers": false,
-              "id": "coords",
-              "lastOnly": false,
-              "lat": 30,
-              "layer": "Layer 1",
-              "lon": 0,
-              "padding": 0,
-              "zoom": 1.5
-            }
-          },
-          "pluginVersion": "11.4.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\",ip=\"$ip\"}) by (code, city), 1)",
-              "format": "table",
-              "instant": true,
-              "legendFormat": "{{code}}",
-              "range": false,
-              "refId": "A"
-            }
-          ],
-          "title": "",
-          "transformations": [
-            {
-              "id": "filterFieldsByName",
-              "options": {
-                "include": {
-                  "names": [
-                    "city",
-                    "code",
-                    "Value"
-                  ]
-                }
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {},
-                "includeByName": {},
-                "indexByName": {},
-                "renameByName": {
-                  "Value": "⏳",
-                  "city": "🏙️",
-                  "code": "📍"
-                }
-              }
-            }
-          ],
-          "transparent": true,
-          "type": "geomap"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "fixedColor": "#7aa1b6",
-                "mode": "thresholds"
-              },
-              "fieldMinMax": false,
-              "mappings": [],
-              "max": 0.35,
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "#4564a3"
-                  }
-                ]
-              },
-              "unit": "none"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 0,
-            "y": 3
-          },
-          "id": 140,
-          "options": {
-            "colorMode": "none",
-            "graphMode": "none",
-            "justifyMode": "center",
-            "orientation": "auto",
-            "percentChangeColorMode": "standard",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "textMode": "value_and_name",
-            "wideLayout": true
-          },
-          "pluginVersion": "11.4.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "count(count by (instance) (probe_success))",
-              "format": "table",
-              "instant": false,
-              "legendFormat": "__auto",
-              "range": true,
-              "refId": "Target IPs"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "count(count by (city) (up{job=\"$job\", code!=\"ANYCAST\", city!=\"\"} == 1))",
-              "format": "table",
-              "hide": false,
-              "instant": false,
-              "legendFormat": "__auto",
-              "range": true,
-              "refId": "Cities"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "count(count by (isp) (up{job=\"$job\", isp!=\"\"} == 1))",
-              "format": "table",
-              "hide": false,
-              "instant": false,
-              "legendFormat": "__auto",
-              "range": true,
-              "refId": "ISP"
-            }
-          ],
-          "title": "",
-          "transformations": [
-            {
-              "id": "merge",
-              "options": {}
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Time": true,
-                  "city": true
-                },
-                "includeByName": {},
-                "indexByName": {
-                  "Time": 0,
-                  "Value #Destination": 1,
-                  "Value #Domestics": 2,
-                  "Value #Overseas": 3
-                },
-                "renameByName": {
-                  "Value #Anycasts": "ANYCAST NODES",
-                  "Value #B": "",
-                  "Value #Cities": "CITIES",
-                  "Value #Domestic Cities": "DOMESTIC CITIES",
-                  "Value #Domestics": "Domestics",
-                  "Value #ISP": "SERVICES",
-                  "Value #Overseas": "Overseas",
-                  "Value #Overseas Cities": "OVERSEAS CITIES",
-                  "Value #Target IPs": "TARGET IPs"
-                }
-              }
-            }
-          ],
-          "transparent": true,
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisGridShow": false,
-                "axisLabel": "",
-                "axisPlacement": "hidden",
-                "axisWidth": 50,
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "hue",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "smooth",
-                "lineWidth": 1,
-                "pointSize": 1,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": 60000,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "noValue": "-",
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "s"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byRegexp",
-                  "options": "/.*Cloudflare|CLOUDFLARE|CF|1.1.1.1/"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#f48120",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byRegexp",
-                  "options": "/.*Quad9|QUAD9|9.9.9.9/"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#ca375f",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byRegexp",
-                  "options": "/(^|\\W)(GOOGLE|GCP|Google|8.8.8.8)($|\\W)/"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#179c52",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byRegexp",
-                  "options": "/(^|\\W)(Azure|AZ|Microsoft)($|\\W)/"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#69c7ef",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byRegexp",
-                  "options": "/(^|\\W)NTT($|\\W)/"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#3070b6",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byFrameRefID",
-                  "options": "Waiting"
-                },
-                "properties": [
-                  {
-                    "id": "custom.lineWidth",
-                    "value": 0
-                  },
-                  {
-                    "id": "mappings",
-                    "value": [
-                      {
-                        "options": {
-                          "-0.001": {
-                            "color": "transparent",
-                            "index": 0,
-                            "text": "waiting"
-                          }
-                        },
-                        "type": "value"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 6,
-            "y": 3
-          },
-          "id": 78,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "pluginVersion": "11.4.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "expr": "0 < probe_duration_seconds{job=\"$job\",code=\"ANYCAST\",ip=\"$ip\"} < 1",
-              "interval": "1m",
-              "legendFormat": "{{name}}",
-              "range": true,
-              "refId": "Anycast"
-            }
-          ],
-          "title": "",
-          "transparent": true,
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "custom": {
-                "align": "center",
-                "cellOptions": {
-                  "type": "auto"
-                },
-                "filterable": true,
-                "inspect": false
-              },
-              "fieldMinMax": false,
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "#394f70"
-                  },
-                  {
-                    "color": "#3d5b9b",
-                    "value": 0.01
-                  },
-                  {
-                    "color": "#4564a3",
-                    "value": 0.05
-                  },
-                  {
-                    "color": "#b0a8a2",
-                    "value": 0.1
-                  },
-                  {
-                    "color": "#e4a870",
-                    "value": 0.15
-                  },
-                  {
-                    "color": "#d4644a",
-                    "value": 0.5
-                  }
-                ]
-              },
-              "unit": "s"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "city"
-                },
-                "properties": [
-                  {
-                    "id": "custom.align",
-                    "value": "left"
-                  },
-                  {
-                    "id": "custom.cellOptions",
-                    "value": {
-                      "type": "color-background"
-                    }
-                  },
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#8080800d",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Value #RTT"
-                },
-                "properties": [
-                  {
-                    "id": "custom.cellOptions",
-                    "value": {
-                      "mode": "basic",
-                      "type": "gauge",
-                      "valueDisplayMode": "text"
-                    }
-                  },
-                  {
-                    "id": "max",
-                    "value": 0.35
-                  },
-                  {
-                    "id": "custom.width",
-                    "value": 115
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Value #Packet Loss Rate"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "percent"
-                  },
-                  {
-                    "id": "custom.width",
-                    "value": 50
-                  },
-                  {
-                    "id": "custom.cellOptions",
-                    "value": {
-                      "mode": "basic",
-                      "type": "color-background"
-                    }
-                  },
-                  {
-                    "id": "thresholds",
-                    "value": {
-                      "mode": "absolute",
-                      "steps": [
-                        {
-                          "color": "#00000000"
-                        },
-                        {
-                          "color": "#7878781a",
-                          "value": 1
-                        },
-                        {
-                          "color": "#78787880",
-                          "value": 5
-                        },
-                        {
-                          "color": "#787878bf",
-                          "value": 10
-                        },
-                        {
-                          "color": "#787878",
-                          "value": 20
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "id": "decimals",
-                    "value": 1
-                  },
-                  {
-                    "id": "mappings",
-                    "value": [
-                      {
-                        "options": {
-                          "0": {
-                            "index": 0,
-                            "text": "0%"
-                          }
-                        },
-                        "type": "value"
-                      }
-                    ]
-                  },
-                  {
-                    "id": "custom.filterable"
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 6,
-            "x": 0,
-            "y": 6
-          },
-          "id": 98,
-          "options": {
-            "cellHeight": "sm",
-            "footer": {
-              "countRows": false,
-              "enablePagination": false,
-              "fields": "",
-              "reducer": [
-                "mean"
-              ],
-              "show": true
-            },
-            "showHeader": true,
-            "sortBy": []
-          },
-          "pluginVersion": "11.4.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "avg(0 < probe_duration_seconds{job=\"$job\",city!=\"\",ip=\"$ip\"} < 1) by (city)",
-              "format": "table",
-              "instant": true,
-              "legendFormat": "{{city}}",
-              "range": false,
-              "refId": "RTT"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "(1 - avg by (city) (avg_over_time(probe_success{job=\"$job\",city!=\"\",ip=\"$ip\"}[1m]))) * 100",
-              "format": "table",
-              "hide": false,
-              "instant": true,
-              "legendFormat": "__auto",
-              "range": false,
-              "refId": "Packet Loss Rate"
-            }
-          ],
-          "title": "",
-          "transformations": [
-            {
-              "id": "filterFieldsByName",
-              "options": {
-                "include": {
-                  "names": [
-                    "city",
-                    "Value #RTT",
-                    "Value #Packet Loss Rate"
-                  ]
-                }
-              }
-            },
-            {
-              "id": "joinByField",
-              "options": {
-                "byField": "city",
-                "mode": "outer"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Value #B": false,
-                  "city 2": true,
-                  "code": false,
-                  "code 1": true,
-                  "code 2": true,
-                  "ip 2": true
-                },
-                "includeByName": {},
-                "indexByName": {
-                  "Value #Packet Loss Rate": 3,
-                  "Value #RTT": 2,
-                  "city": 0,
-                  "code 1": 6,
-                  "code 2": 1,
-                  "ip 1": 4,
-                  "ip 2": 5
-                },
-                "renameByName": {
-                  "Value": "RTT",
-                  "Value #A": "RTT",
-                  "Value #B": "Loss",
-                  "Value #Packet Loss Rate": "PLR",
-                  "Value #RTT": "RTT",
-                  "city": "Destination",
-                  "city 1": "Destination",
-                  "code": " ",
-                  "code 1": " ",
-                  "code 2": " ",
-                  "ip 1": " "
-                }
-              }
-            },
-            {
-              "id": "sortBy",
-              "options": {
-                "fields": {},
-                "sort": [
-                  {
-                    "field": "RTT"
-                  }
-                ]
-              }
-            }
-          ],
-          "transparent": true,
-          "type": "table"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "custom": {
-                "align": "center",
-                "cellOptions": {
-                  "type": "auto"
-                },
-                "filterable": true,
-                "inspect": false
-              },
-              "fieldMinMax": false,
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "#394f70"
-                  },
-                  {
-                    "color": "#3d5b9b",
-                    "value": 0.01
-                  },
-                  {
-                    "color": "#4564a3",
-                    "value": 0.05
-                  },
-                  {
-                    "color": "#b0a8a2",
-                    "value": 0.1
-                  },
-                  {
-                    "color": "#e4a870",
-                    "value": 0.15
-                  },
-                  {
-                    "color": "#d4644a",
-                    "value": 0.5
-                  }
-                ]
-              },
-              "unit": "s"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "name"
-                },
-                "properties": [
-                  {
-                    "id": "custom.align",
-                    "value": "left"
-                  },
-                  {
-                    "id": "custom.cellOptions",
-                    "value": {
-                      "type": "color-background"
-                    }
-                  },
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#8080800d",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Value #Packet Loss Rate"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 50
-                  },
-                  {
-                    "id": "unit",
-                    "value": "percent"
-                  },
-                  {
-                    "id": "custom.cellOptions",
-                    "value": {
-                      "mode": "basic",
-                      "type": "color-background"
-                    }
-                  },
-                  {
-                    "id": "color",
-                    "value": {
-                      "mode": "thresholds"
-                    }
-                  },
-                  {
-                    "id": "thresholds",
-                    "value": {
-                      "mode": "absolute",
-                      "steps": [
-                        {
-                          "color": "transparent"
-                        },
-                        {
-                          "color": "#7878781a",
-                          "value": 1
-                        },
-                        {
-                          "color": "#78787880",
-                          "value": 5
-                        },
-                        {
-                          "color": "#787878bf",
-                          "value": 10
-                        },
-                        {
-                          "color": "#787878",
-                          "value": 20
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "id": "custom.filterable",
-                    "value": false
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "RTT"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 115
-                  },
-                  {
-                    "id": "custom.cellOptions",
-                    "value": {
-                      "mode": "basic",
-                      "type": "gauge"
-                    }
-                  },
-                  {
-                    "id": "max",
-                    "value": 0.35
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 6,
-            "x": 6,
-            "y": 6
-          },
-          "id": 141,
-          "options": {
-            "cellHeight": "sm",
-            "footer": {
-              "countRows": false,
-              "enablePagination": false,
-              "fields": "",
-              "reducer": [
-                "mean"
-              ],
-              "show": true
-            },
-            "showHeader": true,
-            "sortBy": []
-          },
-          "pluginVersion": "11.4.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "0 < avg by (name) (probe_duration_seconds{job=\"$job\",ip=\"$ip\"} < 1)",
-              "format": "table",
-              "instant": true,
-              "legendFormat": "{{city}}",
-              "range": false,
-              "refId": "RTT"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "(1 - avg by (name) (avg_over_time(probe_success{job=\"$job\",ip=\"$ip\"}[1m]))) * 100",
-              "format": "table",
-              "hide": false,
-              "instant": true,
-              "legendFormat": "{{city}}",
-              "range": false,
-              "refId": "Packet Loss Rate"
-            }
-          ],
-          "title": "",
-          "transformations": [
-            {
-              "id": "joinByField",
-              "options": {
-                "byField": "name",
-                "mode": "outer"
-              }
-            },
-            {
-              "id": "filterFieldsByName",
-              "options": {
-                "include": {
-                  "names": [
-                    "name",
-                    "Value #RTT",
-                    "Value #Packet Loss Rate"
-                  ]
-                }
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {},
-                "includeByName": {},
-                "indexByName": {
-                  "Value #Packet Loss Rate": 2,
-                  "Value #RTT": 1,
-                  "name": 0
-                },
-                "renameByName": {
-                  "Value": "RTT",
-                  "Value #Packet Loss": "Loss",
-                  "Value #Packet Loss Rate": "PLR",
-                  "Value #RTT": "RTT",
-                  "city": "CITY",
-                  "code": "📍",
-                  "name": "Name"
-                }
-              }
-            },
-            {
-              "id": "sortBy",
-              "options": {
-                "fields": {},
-                "sort": [
-                  {
-                    "field": "RTT"
-                  }
-                ]
-              }
-            }
-          ],
-          "transparent": true,
-          "type": "table"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "continuous-GrYlRd"
-              },
-              "custom": {
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                }
-              },
-              "decimals": 1,
-              "fieldMinMax": false,
-              "mappings": [
-                {
-                  "options": {
-                    "1": {
-                      "index": 0,
-                      "text": "Timeout"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "max": 0.35,
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "#394f70"
-                  }
-                ]
-              },
-              "unit": "s"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 7,
-            "x": 12,
-            "y": 6
-          },
-          "id": 106,
-          "options": {
-            "basemap": {
-              "config": {
-                "server": "streets",
-                "showLabels": true,
-                "theme": "auto",
-                "url": "https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png"
-              },
-              "name": "Layer 0",
-              "opacity": 0.3,
-              "tooltip": false,
-              "type": "carto"
-            },
-            "controls": {
-              "mouseWheelZoom": false,
-              "showAttribution": false,
-              "showDebug": false,
-              "showMeasure": false,
-              "showScale": false,
-              "showZoom": false
-            },
-            "layers": [
-              {
-                "config": {
-                  "showLegend": false,
-                  "style": {
-                    "color": {
-                      "field": "Value",
-                      "fixed": "dark-blue"
-                    },
-                    "opacity": 0.3,
-                    "rotation": {
-                      "fixed": 0,
-                      "max": 360,
-                      "min": -360,
-                      "mode": "mod"
-                    },
-                    "size": {
-                      "fixed": 4,
-                      "max": 7.5,
-                      "min": 2
-                    },
-                    "symbol": {
-                      "fixed": "img/icons/marker/circle.svg",
-                      "mode": "fixed"
-                    },
-                    "symbolAlign": {
-                      "horizontal": "center",
-                      "vertical": "center"
-                    },
-                    "text": {
-                      "field": "code",
-                      "fixed": "",
-                      "mode": "field"
-                    },
-                    "textConfig": {
-                      "fontSize": 12,
-                      "offsetX": -2,
-                      "offsetY": -2,
-                      "textAlign": "right",
-                      "textBaseline": "bottom"
-                    }
-                  }
-                },
-                "filterData": {
-                  "id": "byRefId",
-                  "options": "A"
-                },
-                "location": {
-                  "gazetteer": "public/gazetteer/airports.geojson",
-                  "lookup": "code",
-                  "mode": "lookup"
-                },
-                "name": "Average RTT",
-                "tooltip": true,
-                "type": "markers"
-              },
-              {
-                "config": {
-                  "blur": 25,
-                  "radius": 25,
-                  "weight": {
-                    "fixed": 0.25,
-                    "max": 1,
-                    "min": 0
-                  }
-                },
-                "filterData": {
-                  "id": "byRefId",
-                  "options": "A"
-                },
-                "location": {
-                  "gazetteer": "public/gazetteer/airports.geojson",
-                  "lookup": "code",
-                  "mode": "lookup"
-                },
-                "name": "Lights",
-                "opacity": 0.25,
-                "tooltip": false,
-                "type": "heatmap"
-              }
-            ],
-            "tooltip": {
-              "mode": "details"
-            },
-            "view": {
-              "allLayers": false,
-              "id": "coords",
-              "lastOnly": false,
-              "lat": 32.5,
-              "layer": "Layer 1",
-              "lon": 117.5,
-              "padding": 0,
-              "zoom": 2.75
-            }
-          },
-          "pluginVersion": "11.4.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\",ip=\"$ip\"}) by (code, city), 1)",
-              "format": "table",
-              "instant": true,
-              "legendFormat": "{{code}}",
-              "range": false,
-              "refId": "A"
-            }
-          ],
-          "title": "",
-          "transformations": [
-            {
-              "id": "filterFieldsByName",
-              "options": {
-                "include": {
-                  "names": [
-                    "code",
-                    "Value",
-                    "city"
-                  ]
-                }
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {},
-                "includeByName": {},
-                "indexByName": {},
-                "renameByName": {
-                  "Value": "⏳",
-                  "city": "🏙️",
-                  "code": "📍"
-                }
-              }
-            }
-          ],
-          "transparent": true,
-          "type": "geomap"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "continuous-GrYlRd"
-              },
-              "custom": {
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                }
-              },
-              "decimals": 1,
-              "fieldMinMax": false,
-              "mappings": [
-                {
-                  "options": {
-                    "1": {
-                      "index": 0,
-                      "text": "Timeout"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "max": 0.35,
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "#394f70"
-                  }
-                ]
-              },
-              "unit": "s"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 5,
-            "w": 5,
-            "x": 19,
-            "y": 6
-          },
-          "id": 74,
-          "options": {
-            "basemap": {
-              "config": {
-                "server": "streets",
-                "showLabels": true,
-                "theme": "auto",
-                "url": "https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png"
-              },
-              "name": "Layer 0",
-              "opacity": 0.3,
-              "tooltip": false,
-              "type": "carto"
-            },
-            "controls": {
-              "mouseWheelZoom": false,
-              "showAttribution": false,
-              "showDebug": false,
-              "showMeasure": false,
-              "showScale": false,
-              "showZoom": false
-            },
-            "layers": [
-              {
-                "config": {
-                  "showLegend": false,
-                  "style": {
-                    "color": {
-                      "field": "Value",
-                      "fixed": "dark-blue"
-                    },
-                    "opacity": 0.3,
-                    "rotation": {
-                      "fixed": 0,
-                      "max": 360,
-                      "min": -360,
-                      "mode": "mod"
-                    },
-                    "size": {
-                      "fixed": 4,
-                      "max": 7.5,
-                      "min": 2
-                    },
-                    "symbol": {
-                      "fixed": "img/icons/marker/circle.svg",
-                      "mode": "fixed"
-                    },
-                    "symbolAlign": {
-                      "horizontal": "center",
-                      "vertical": "center"
-                    },
-                    "text": {
-                      "field": "code",
-                      "fixed": "",
-                      "mode": "field"
-                    },
-                    "textConfig": {
-                      "fontSize": 12,
-                      "offsetX": -2,
-                      "offsetY": -2,
-                      "textAlign": "right",
-                      "textBaseline": "bottom"
-                    }
-                  }
-                },
-                "filterData": {
-                  "id": "byRefId",
-                  "options": "A"
-                },
-                "location": {
-                  "gazetteer": "public/gazetteer/airports.geojson",
-                  "lookup": "code",
-                  "mode": "lookup"
-                },
-                "name": "Average RTT",
-                "tooltip": true,
-                "type": "markers"
-              },
-              {
-                "config": {
-                  "blur": 25,
-                  "radius": 25,
-                  "weight": {
-                    "fixed": 0.25,
-                    "max": 1,
-                    "min": 0
-                  }
-                },
-                "filterData": {
-                  "id": "byRefId",
-                  "options": "A"
-                },
-                "location": {
-                  "gazetteer": "public/gazetteer/airports.geojson",
-                  "lookup": "code",
-                  "mode": "lookup"
-                },
-                "name": "Lights",
-                "opacity": 0.25,
-                "tooltip": false,
-                "type": "heatmap"
-              }
-            ],
-            "tooltip": {
-              "mode": "details"
-            },
-            "view": {
-              "allLayers": false,
-              "id": "coords",
-              "lastOnly": false,
-              "lat": 52.5,
-              "layer": "Layer 1",
-              "lon": 15,
-              "padding": 0,
-              "shared": false,
-              "zoom": 2.75
-            }
-          },
-          "pluginVersion": "11.4.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\",ip=\"$ip\"}) by (code, city), 1)",
-              "format": "table",
-              "instant": true,
-              "legendFormat": "{{code}}",
-              "range": false,
-              "refId": "A"
-            }
-          ],
-          "title": "",
-          "transformations": [
-            {
-              "id": "filterFieldsByName",
-              "options": {
-                "include": {
-                  "names": [
-                    "code",
-                    "Value",
-                    "city"
-                  ]
-                }
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {},
-                "includeByName": {},
-                "indexByName": {},
-                "renameByName": {
-                  "Value": "⏳",
-                  "city": "🏙️",
-                  "code": "📍"
-                }
-              }
-            }
-          ],
-          "transparent": true,
-          "type": "geomap"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "continuous-GrYlRd"
-              },
-              "custom": {
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                }
-              },
-              "decimals": 1,
-              "fieldMinMax": false,
-              "mappings": [
-                {
-                  "options": {
-                    "1": {
-                      "index": 0,
-                      "text": "Timeout"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "max": 0.35,
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "#394f70"
-                  }
-                ]
-              },
-              "unit": "s"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 5,
-            "w": 5,
-            "x": 19,
-            "y": 11
-          },
-          "id": 80,
-          "options": {
-            "basemap": {
-              "config": {
-                "server": "world-imagery",
-                "showLabels": true,
-                "theme": "auto",
-                "url": "https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png"
-              },
-              "name": "Layer 0",
-              "opacity": 0.3,
-              "tooltip": false,
-              "type": "carto"
-            },
-            "controls": {
-              "mouseWheelZoom": false,
-              "showAttribution": false,
-              "showDebug": false,
-              "showMeasure": false,
-              "showScale": false,
-              "showZoom": false
-            },
-            "layers": [
-              {
-                "config": {
-                  "showLegend": false,
-                  "style": {
-                    "color": {
-                      "field": "Value",
-                      "fixed": "dark-blue"
-                    },
-                    "opacity": 0.3,
-                    "rotation": {
-                      "fixed": 0,
-                      "max": 360,
-                      "min": -360,
-                      "mode": "mod"
-                    },
-                    "size": {
-                      "fixed": 4,
-                      "max": 7.5,
-                      "min": 2
-                    },
-                    "symbol": {
-                      "fixed": "img/icons/marker/circle.svg",
-                      "mode": "fixed"
-                    },
-                    "symbolAlign": {
-                      "horizontal": "center",
-                      "vertical": "center"
-                    },
-                    "text": {
-                      "field": "code",
-                      "fixed": "",
-                      "mode": "field"
-                    },
-                    "textConfig": {
-                      "fontSize": 12,
-                      "offsetX": -2,
-                      "offsetY": -2,
-                      "textAlign": "right",
-                      "textBaseline": "bottom"
-                    }
-                  }
-                },
-                "filterData": {
-                  "id": "byRefId",
-                  "options": "A"
-                },
-                "location": {
-                  "gazetteer": "public/gazetteer/airports.geojson",
-                  "lookup": "code",
-                  "mode": "lookup"
-                },
-                "name": "Average RTT",
-                "tooltip": true,
-                "type": "markers"
-              },
-              {
-                "config": {
-                  "blur": 25,
-                  "radius": 25,
-                  "weight": {
-                    "fixed": 0.25,
-                    "max": 1,
-                    "min": 0
-                  }
-                },
-                "filterData": {
-                  "id": "byRefId",
-                  "options": "A"
-                },
-                "location": {
-                  "gazetteer": "public/gazetteer/airports.geojson",
-                  "lookup": "code",
-                  "mode": "lookup"
-                },
-                "name": "Lights",
-                "opacity": 0.25,
-                "tooltip": false,
-                "type": "heatmap"
-              }
-            ],
-            "tooltip": {
-              "mode": "details"
-            },
-            "view": {
-              "allLayers": false,
-              "id": "coords",
-              "lastOnly": false,
-              "lat": 40,
-              "layer": "Layer 1",
-              "lon": -100,
-              "padding": 0,
-              "zoom": 2.5
-            }
-          },
-          "pluginVersion": "11.4.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\",ip=\"$ip\"}) by (code, city), 1)",
-              "format": "table",
-              "instant": true,
-              "legendFormat": "{{code}}",
-              "range": false,
-              "refId": "A"
-            }
-          ],
-          "title": "",
-          "transformations": [
-            {
-              "id": "filterFieldsByName",
-              "options": {
-                "include": {
-                  "names": [
-                    "code",
-                    "Value",
-                    "city"
-                  ]
-                }
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {},
-                "includeByName": {},
-                "indexByName": {},
-                "renameByName": {
-                  "Value": "⏳",
-                  "city": "🏙️",
-                  "code": "📍"
-                }
-              }
-            }
-          ],
-          "transparent": true,
-          "type": "geomap"
-        }
-      ],
+      "panels": [],
       "title": "OVERVIEW",
       "type": "row"
+    },
+    {
+      "description": "<p>This dashboard is created by <strong>@SLOMO</strong> / <a href=\"https://github.com/TPCTPCTPC/Grafana-Dashboards\" target=\"_blank\">TPCTPCTPC@GitHub</a></p>",
+      "gridPos": {
+        "h": 2,
+        "w": 5,
+        "x": 0,
+        "y": 1
+      },
+      "id": 142,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h5><strong>◾️ BBxPING Gen2</strong> <sup>$ip</sup></h5>\n<div style=\"background: linear-gradient(to right, rgba(255, 255, 255, 0), #4564a3);\">\n  <p style=\"font-size: 13px;\"><strong>🔖 &nbsp;SRC | ${job}</strong></p>\n</div>",
+        "mode": "html"
+      },
+      "pluginVersion": "11.4.0",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 1,
+          "fieldMinMax": false,
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "index": 0,
+                  "text": "Timeout"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 0.35,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#394f70",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 5,
+        "y": 1
+      },
+      "id": 80,
+      "options": {
+        "basemap": {
+          "config": {
+            "server": "world-imagery",
+            "showLabels": true,
+            "theme": "auto",
+            "url": "https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png"
+          },
+          "name": "Layer 0",
+          "opacity": 0.7,
+          "tooltip": false,
+          "type": "carto"
+        },
+        "controls": {
+          "mouseWheelZoom": false,
+          "showAttribution": false,
+          "showDebug": false,
+          "showMeasure": false,
+          "showScale": false,
+          "showZoom": false
+        },
+        "layers": [
+          {
+            "config": {
+              "server": "world-imagery"
+            },
+            "name": "Layer 3",
+            "opacity": 0.1,
+            "tooltip": false,
+            "type": "esri-xyz"
+          },
+          {
+            "config": {
+              "showLegend": false,
+              "style": {
+                "color": {
+                  "field": "Value",
+                  "fixed": "dark-blue"
+                },
+                "opacity": 0.3,
+                "rotation": {
+                  "fixed": 0,
+                  "max": 360,
+                  "min": -360,
+                  "mode": "mod"
+                },
+                "size": {
+                  "fixed": 4,
+                  "max": 7.5,
+                  "min": 2
+                },
+                "symbol": {
+                  "fixed": "img/icons/marker/circle.svg",
+                  "mode": "fixed"
+                },
+                "symbolAlign": {
+                  "horizontal": "center",
+                  "vertical": "center"
+                },
+                "text": {
+                  "field": "code",
+                  "fixed": "",
+                  "mode": "field"
+                },
+                "textConfig": {
+                  "fontSize": 12,
+                  "offsetX": -2,
+                  "offsetY": -2,
+                  "textAlign": "right",
+                  "textBaseline": "bottom"
+                }
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Average RTT",
+            "tooltip": true,
+            "type": "markers"
+          },
+          {
+            "config": {
+              "blur": 25,
+              "radius": 25,
+              "weight": {
+                "fixed": 0.25,
+                "max": 1,
+                "min": 0
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Lights",
+            "opacity": 0.25,
+            "tooltip": false,
+            "type": "heatmap"
+          }
+        ],
+        "tooltip": {
+          "mode": "details"
+        },
+        "view": {
+          "allLayers": false,
+          "id": "coords",
+          "lastOnly": false,
+          "lat": 40,
+          "layer": "Layer 1",
+          "lon": -100,
+          "padding": 0,
+          "zoom": 2.5
+        }
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\",ip=\"$ip\"}) by (code, city), 1)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "{{code}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "code",
+                "Value",
+                "city"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Value": "⏳",
+              "city": "🏙️",
+              "code": "📍"
+            }
+          }
+        }
+      ],
+      "type": "geomap"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 1,
+          "fieldMinMax": false,
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "index": 0,
+                  "text": "Timeout"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 0.35,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#394f70",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 10,
+        "y": 1
+      },
+      "id": 74,
+      "options": {
+        "basemap": {
+          "config": {
+            "server": "streets",
+            "showLabels": true,
+            "theme": "auto",
+            "url": "https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png"
+          },
+          "name": "Layer 0",
+          "opacity": 0.7,
+          "tooltip": false,
+          "type": "carto"
+        },
+        "controls": {
+          "mouseWheelZoom": false,
+          "showAttribution": false,
+          "showDebug": false,
+          "showMeasure": false,
+          "showScale": false,
+          "showZoom": false
+        },
+        "layers": [
+          {
+            "config": {
+              "server": "world-imagery"
+            },
+            "name": "Layer 3",
+            "opacity": 0.1,
+            "tooltip": false,
+            "type": "esri-xyz"
+          },
+          {
+            "config": {
+              "showLegend": false,
+              "style": {
+                "color": {
+                  "field": "Value",
+                  "fixed": "dark-blue"
+                },
+                "opacity": 0.3,
+                "rotation": {
+                  "fixed": 0,
+                  "max": 360,
+                  "min": -360,
+                  "mode": "mod"
+                },
+                "size": {
+                  "fixed": 4,
+                  "max": 7.5,
+                  "min": 2
+                },
+                "symbol": {
+                  "fixed": "img/icons/marker/circle.svg",
+                  "mode": "fixed"
+                },
+                "symbolAlign": {
+                  "horizontal": "center",
+                  "vertical": "center"
+                },
+                "text": {
+                  "field": "code",
+                  "fixed": "",
+                  "mode": "field"
+                },
+                "textConfig": {
+                  "fontSize": 12,
+                  "offsetX": -2,
+                  "offsetY": -2,
+                  "textAlign": "right",
+                  "textBaseline": "bottom"
+                }
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Average RTT",
+            "tooltip": true,
+            "type": "markers"
+          },
+          {
+            "config": {
+              "blur": 25,
+              "radius": 25,
+              "weight": {
+                "fixed": 0.25,
+                "max": 1,
+                "min": 0
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Lights",
+            "opacity": 0.25,
+            "tooltip": false,
+            "type": "heatmap"
+          }
+        ],
+        "tooltip": {
+          "mode": "details"
+        },
+        "view": {
+          "allLayers": false,
+          "id": "coords",
+          "lastOnly": false,
+          "lat": 50,
+          "layer": "Layer 1",
+          "lon": 10,
+          "padding": 0,
+          "shared": false,
+          "zoom": 2.75
+        }
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\",ip=\"$ip\"}) by (code, city), 1)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "{{code}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "code",
+                "Value",
+                "city"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Value": "⏳",
+              "city": "🏙️",
+              "code": "📍"
+            }
+          }
+        }
+      ],
+      "type": "geomap"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 1,
+          "fieldMinMax": false,
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "index": 0,
+                  "text": "Timeout"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 0.35,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#394f70",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 14,
+        "y": 1
+      },
+      "id": 106,
+      "options": {
+        "basemap": {
+          "config": {
+            "server": "streets",
+            "showLabels": true,
+            "theme": "auto",
+            "url": "https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png"
+          },
+          "name": "Layer 0",
+          "opacity": 0.7,
+          "tooltip": false,
+          "type": "carto"
+        },
+        "controls": {
+          "mouseWheelZoom": false,
+          "showAttribution": false,
+          "showDebug": false,
+          "showMeasure": false,
+          "showScale": false,
+          "showZoom": false
+        },
+        "layers": [
+          {
+            "config": {
+              "server": "world-imagery"
+            },
+            "name": "Layer 3",
+            "opacity": 0.1,
+            "tooltip": false,
+            "type": "esri-xyz"
+          },
+          {
+            "config": {
+              "showLegend": false,
+              "style": {
+                "color": {
+                  "field": "Value",
+                  "fixed": "dark-blue"
+                },
+                "opacity": 0.3,
+                "rotation": {
+                  "fixed": 0,
+                  "max": 360,
+                  "min": -360,
+                  "mode": "mod"
+                },
+                "size": {
+                  "fixed": 4,
+                  "max": 7.5,
+                  "min": 2
+                },
+                "symbol": {
+                  "fixed": "img/icons/marker/circle.svg",
+                  "mode": "fixed"
+                },
+                "symbolAlign": {
+                  "horizontal": "center",
+                  "vertical": "center"
+                },
+                "text": {
+                  "field": "code",
+                  "fixed": "",
+                  "mode": "field"
+                },
+                "textConfig": {
+                  "fontSize": 12,
+                  "offsetX": -2,
+                  "offsetY": -2,
+                  "textAlign": "right",
+                  "textBaseline": "bottom"
+                }
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Average RTT",
+            "tooltip": true,
+            "type": "markers"
+          },
+          {
+            "config": {
+              "blur": 25,
+              "radius": 25,
+              "weight": {
+                "fixed": 0.25,
+                "max": 1,
+                "min": 0
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Lights",
+            "opacity": 0.25,
+            "tooltip": false,
+            "type": "heatmap"
+          }
+        ],
+        "tooltip": {
+          "mode": "details"
+        },
+        "view": {
+          "allLayers": false,
+          "id": "coords",
+          "lastOnly": false,
+          "lat": 35,
+          "layer": "Layer 1",
+          "lon": 117.5,
+          "padding": 0,
+          "zoom": 2.5
+        }
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\",ip=\"$ip\"}) by (code, city), 1)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "{{code}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "code",
+                "Value",
+                "city"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Value": "⏳",
+              "city": "🏙️",
+              "code": "📍"
+            }
+          }
+        }
+      ],
+      "type": "geomap"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#7aa1b6",
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 0.35,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#394f70e6",
+                "value": null
+              },
+              {
+                "color": "#3d5b9ce6",
+                "value": 0.01
+              },
+              {
+                "color": "#4564a3e6",
+                "value": 0.05
+              },
+              {
+                "color": "#b0a8a2e6",
+                "value": 0.1
+              },
+              {
+                "color": "#e3a76fe6",
+                "value": 0.15
+              },
+              {
+                "color": "#d4634ae6",
+                "value": 0.5
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 19,
+        "y": 1
+      },
+      "id": 139,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "inverted",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": true,
+        "textMode": "value_and_name",
+        "wideLayout": false
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg(0 < probe_duration_seconds{job=\"$job\",domestic=\"true\",ip=\"$ip\"} < 1)",
+          "format": "table",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "Domestics"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg(avg(0 < probe_duration_seconds{job=\"$job\",code!=\"ANYCAST\",city!=\"$source_city\",ip=\"$ip\"} < 1) by (city))",
+          "format": "table",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "Global"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg(0 < probe_duration_seconds{job=\"$job\",code=\"ANYCAST\",ip=\"$ip\"} < 1)",
+          "format": "table",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "Anycast"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg(0 < probe_duration_seconds{job=\"$job\",isp=\"$isp\",ip=\"$ip\"} < 1)",
+          "format": "table",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "ISP"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "city": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "Time": 0,
+              "Value #Destination": 1,
+              "Value #Domestics": 2,
+              "Value #Overseas": 3
+            },
+            "renameByName": {
+              "Value #Anycast": "Anycast",
+              "Value #Domestics": "Domestics",
+              "Value #Global": "Global",
+              "Value #ISP": "$isp",
+              "Value #Overseas": "Overseas"
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#7aa1b6",
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 0.35,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#4564a3",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 5,
+        "x": 0,
+        "y": 3
+      },
+      "id": 140,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by (instance) (probe_success))",
+          "format": "table",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "Target IPs"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by (city) (up{job=\"$job\", code!=\"ANYCAST\", city!=\"\"} == 1))",
+          "format": "table",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "Cities"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by (isp) (up{job=\"$job\", isp!=\"\"} == 1))",
+          "format": "table",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "ISP"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "city": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "Time": 0,
+              "Value #Destination": 1,
+              "Value #Domestics": 2,
+              "Value #Overseas": 3
+            },
+            "renameByName": {
+              "Value #Anycasts": "ANYCAST NODES",
+              "Value #B": "",
+              "Value #Cities": "CITIES",
+              "Value #Domestic Cities": "DOMESTIC CITIES",
+              "Value #Domestics": "Domestics",
+              "Value #ISP": "SERVICES",
+              "Value #Overseas": "Overseas",
+              "Value #Overseas Cities": "OVERSEAS CITIES",
+              "Value #Target IPs": "TARGETS"
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#394f70",
+                "value": null
+              },
+              {
+                "color": "#3d5b9b",
+                "value": 0.01
+              },
+              {
+                "color": "#4564a3",
+                "value": 0.05
+              },
+              {
+                "color": "#b0a8a2",
+                "value": 0.1
+              },
+              {
+                "color": "#e4a870",
+                "value": 0.15
+              },
+              {
+                "color": "#d4644a",
+                "value": 0.5
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "city"
+            },
+            "properties": [
+              {
+                "id": "custom.align",
+                "value": "left"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#768a800d",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 115
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RTT"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "gauge",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "max",
+                "value": 0.35
+              },
+              {
+                "id": "custom.width",
+                "value": 90
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": " "
+            },
+            "properties": [
+              {
+                "id": "custom.filterable"
+              },
+              {
+                "id": "unit",
+                "value": "none"
+              },
+              {
+                "id": "custom.width",
+                "value": 20
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 5,
+        "x": 0,
+        "y": 6
+      },
+      "id": 151,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": [
+            "Value"
+          ],
+          "reducer": [
+            "mean"
+          ],
+          "show": false
+        },
+        "showHeader": false,
+        "sortBy": []
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg(0 < probe_duration_seconds{job=\"$job\",city!=\"\",ip=\"$ip\"} < 1) by (city)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "{{city}}",
+          "range": false,
+          "refId": "RTT"
+        }
+      ],
+      "title": "DESTINATION",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "city",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "city",
+            "mode": "outer"
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Value"
+              }
+            ]
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": " Rank",
+            "index": {
+              "asPercentile": false
+            },
+            "mode": "index",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": " ",
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": " Rank"
+                }
+              },
+              "right": {
+                "fixed": "1"
+              }
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                " "
+              ],
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              " ": false,
+              "  2": false,
+              " Rank": true,
+              "Value #B": false,
+              "Value #Packet Loss Rate": true,
+              "city 2": true,
+              "code": false,
+              "code 1": true,
+              "code 2": true,
+              "ip 2": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              " ": 0,
+              " Rank": 3,
+              "Value": 2,
+              "city": 1
+            },
+            "renameByName": {
+              " ": "",
+              "  2": " ",
+              " 3": "",
+              " Rank": "",
+              "Value": "RTT",
+              "Value #A": "RTT",
+              "Value #B": "Loss",
+              "Value #Packet Loss Rate": "PLR",
+              "Value #RTT": "RTT",
+              "city": "DEST",
+              "city 1": "Destination",
+              "code": " ",
+              "code 1": " ",
+              "code 2": " ",
+              "ip 1": " "
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "hidden",
+            "axisWidth": 50,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "hue",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 1,
+            "scaleDistribution": {
+              "log": 2,
+              "type": "log"
+            },
+            "showPoints": "never",
+            "spanNulls": 60000,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "noValue": "-",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*Cloudflare|CLOUDFLARE|CF|1.1.1.1/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#f48120",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*Quad9|QUAD9|9.9.9.9/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ca375f",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(GOOGLE|GCP|Google|8.8.8.8)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#179c52",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)(Azure|AZ|Microsoft)($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#69c7ef",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(^|\\W)NTT($|\\W)/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#3070b6",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "Waiting"
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 0
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "-0.001": {
+                        "color": "transparent",
+                        "index": 0,
+                        "text": "waiting"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 14,
+        "x": 5,
+        "y": 6
+      },
+      "id": 78,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "0 < probe_duration_seconds{job=\"$job\",code=\"ANYCAST\",ip=\"$ip\"} < 1",
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "range": true,
+          "refId": "Anycast"
+        }
+      ],
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#394f70",
+                "value": null
+              },
+              {
+                "color": "#3d5b9b",
+                "value": 0.01
+              },
+              {
+                "color": "#4564a3",
+                "value": 0.05
+              },
+              {
+                "color": "#b0a8a2",
+                "value": 0.1
+              },
+              {
+                "color": "#e4a870",
+                "value": 0.15
+              },
+              {
+                "color": "#d4644a",
+                "value": 0.5
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "name"
+            },
+            "properties": [
+              {
+                "id": "custom.align",
+                "value": "left"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ac95650d",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 115
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RTT"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "gauge",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "max",
+                "value": 0.35
+              },
+              {
+                "id": "custom.width",
+                "value": 85
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": " "
+            },
+            "properties": [
+              {
+                "id": "custom.filterable"
+              },
+              {
+                "id": "unit",
+                "value": "none"
+              },
+              {
+                "id": "custom.width",
+                "value": 20
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 5,
+        "x": 19,
+        "y": 6
+      },
+      "id": 98,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": [
+            "Value"
+          ],
+          "reducer": [
+            "mean"
+          ],
+          "show": false
+        },
+        "showHeader": false,
+        "sortBy": []
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "0 < avg by (name) (probe_duration_seconds{job=\"$job\",ip=\"$ip\"} < 1)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "{{city}}",
+          "range": false,
+          "refId": "RTT"
+        }
+      ],
+      "title": "TARGET / GROUP",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Value",
+                "name"
+              ]
+            }
+          }
+        },
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "city",
+            "mode": "outer"
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Value"
+              }
+            ]
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": " Rank",
+            "index": {
+              "asPercentile": false
+            },
+            "mode": "index",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": " ",
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": " Rank"
+                }
+              },
+              "right": {
+                "fixed": "1"
+              }
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                " "
+              ],
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              " ": false,
+              "  2": false,
+              " Rank": true,
+              "Value #B": false,
+              "Value #Packet Loss Rate": true,
+              "city 2": true,
+              "code": false,
+              "code 1": true,
+              "code 2": true,
+              "ip 2": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              " ": 0,
+              " Rank": 3,
+              "Value": 2,
+              "name": 1
+            },
+            "renameByName": {
+              " ": "",
+              "  2": " ",
+              " 3": "",
+              " Rank": "",
+              "Value": "RTT",
+              "Value #A": "RTT",
+              "Value #B": "Loss",
+              "Value #Packet Loss Rate": "PLR",
+              "Value #RTT": "RTT",
+              "city": "DEST",
+              "city 1": "Destination",
+              "code": " ",
+              "code 1": " ",
+              "code 2": " ",
+              "ip 1": " "
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 1,
+          "fieldMinMax": false,
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "index": 0,
+                  "text": "Timeout"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 0.35,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#394f70",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 14,
+        "x": 5,
+        "y": 7
+      },
+      "id": 25,
+      "options": {
+        "basemap": {
+          "config": {
+            "server": "world-imagery",
+            "showLabels": false,
+            "theme": "auto",
+            "url": "https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png"
+          },
+          "name": "Layer 0",
+          "opacity": 0.5,
+          "tooltip": false,
+          "type": "carto"
+        },
+        "controls": {
+          "mouseWheelZoom": false,
+          "showAttribution": false,
+          "showDebug": false,
+          "showMeasure": false,
+          "showScale": false,
+          "showZoom": false
+        },
+        "layers": [
+          {
+            "config": {
+              "showLegend": false,
+              "style": {
+                "color": {
+                  "field": "Value",
+                  "fixed": "dark-blue"
+                },
+                "opacity": 1,
+                "rotation": {
+                  "fixed": 0,
+                  "max": 360,
+                  "min": -360,
+                  "mode": "mod"
+                },
+                "size": {
+                  "fixed": 2.75,
+                  "max": 7.5,
+                  "min": 2
+                },
+                "symbol": {
+                  "fixed": "img/icons/marker/cross.svg",
+                  "mode": "fixed"
+                },
+                "symbolAlign": {
+                  "horizontal": "center",
+                  "vertical": "center"
+                },
+                "text": {
+                  "field": "⏳",
+                  "fixed": "",
+                  "mode": "fixed"
+                },
+                "textConfig": {
+                  "fontSize": 12.5,
+                  "offsetX": -2,
+                  "offsetY": -2,
+                  "textAlign": "right",
+                  "textBaseline": "bottom"
+                }
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Average RTT",
+            "tooltip": true,
+            "type": "markers"
+          },
+          {
+            "config": {
+              "blur": 7.5,
+              "radius": 10,
+              "weight": {
+                "fixed": 0.15,
+                "max": 1,
+                "min": 0
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "gazetteer": "public/gazetteer/airports.geojson",
+              "lookup": "code",
+              "mode": "lookup"
+            },
+            "name": "Lights",
+            "opacity": 0.75,
+            "tooltip": false,
+            "type": "heatmap"
+          }
+        ],
+        "tooltip": {
+          "mode": "details"
+        },
+        "view": {
+          "allLayers": false,
+          "id": "coords",
+          "lastOnly": false,
+          "lat": 30,
+          "layer": "Layer 1",
+          "lon": 0,
+          "padding": 0,
+          "zoom": 1.5
+        }
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "clamp_max(avg(probe_duration_seconds{job=\"$job\",ip=\"$ip\"}) by (code, city), 1)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "{{code}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "city",
+                "code",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Value": "⏳",
+              "city": "🏙️",
+              "code": "📍"
+            }
+          }
+        }
+      ],
+      "type": "geomap"
+    },
+    {
+      "description": "",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 150,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "html"
+      },
+      "pluginVersion": "11.4.0",
+      "transparent": true,
+      "type": "text"
     },
     {
       "datasource": {
@@ -1960,9 +2157,9 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 1
+        "y": 18
       },
       "id": 125,
       "options": {
@@ -2045,167 +2242,12 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "#7aa1b6",
-            "mode": "thresholds"
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "max": 0.35,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#394f70e6",
-                "value": null
-              },
-              {
-                "color": "#3d5b9ce6",
-                "value": 0.01
-              },
-              {
-                "color": "#4564a3e6",
-                "value": 0.05
-              },
-              {
-                "color": "#b0a8a2e6",
-                "value": 0.1
-              },
-              {
-                "color": "#e3a76fe6",
-                "value": 0.15
-              },
-              {
-                "color": "#d4634ae6",
-                "value": 0.5
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 7,
-        "x": 12,
-        "y": 1
-      },
-      "id": 139,
-      "options": {
-        "colorMode": "none",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "value_and_name",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.4.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "avg(0 < probe_duration_seconds{job=\"$job\",domestic=\"true\",ip=\"$ip\"} < 1)",
-          "format": "table",
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "Domestics"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "avg(avg(0 < probe_duration_seconds{job=\"$job\",code!=\"ANYCAST\",city!=\"$source_city\",ip=\"$ip\"} < 1) by (city))",
-          "format": "table",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "Global"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "merge",
-          "options": {}
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "Time": true,
-              "city": true
-            },
-            "includeByName": {},
-            "indexByName": {
-              "Time": 0,
-              "Value #Destination": 1,
-              "Value #Domestics": 2,
-              "Value #Overseas": 3
-            },
-            "renameByName": {
-              "Value #Domestics": "Domestics",
-              "Value #Global": "Global",
-              "Value #Overseas": "Overseas"
-            }
-          }
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "description": "<p>This dashboard is created by <strong>@SLOMO</strong> / <a href=\"https://github.com/TPCTPCTPC/Grafana-Dashboards\" target=\"_blank\">TPCTPCTPC@GitHub</a></p>",
-      "gridPos": {
-        "h": 2,
-        "w": 5,
-        "x": 19,
-        "y": 1
-      },
-      "id": 142,
-      "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
-        "content": "<h5><strong>◾️ BBxPING STAT</strong> <sup>$ip</sup></h5>\n<div style=\"background: linear-gradient(to right, rgba(255, 255, 255, 0), #4564a3);\">\n  <p style=\"font-size: 13px;\"><strong>🔖 &nbsp;SRC | ${job}</strong></p>\n</div>",
-        "mode": "html"
-      },
-      "pluginVersion": "11.4.0",
-      "transparent": true,
-      "type": "text"
-    },
-    {
       "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 3
+        "y": 20
       },
       "id": 136,
       "panels": [
@@ -2639,7 +2681,7 @@
             "h": 11,
             "w": 12,
             "x": 12,
-            "y": 80
+            "y": 106
           },
           "id": 126,
           "options": {
@@ -2700,17 +2742,7 @@
                 },
                 "inspect": false
               },
-              "mappings": [
-                {
-                  "options": {
-                    "1": {
-                      "index": 0,
-                      "text": "Timeout"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
+              "mappings": [],
               "min": 0,
               "thresholds": {
                 "mode": "absolute",
@@ -2760,6 +2792,20 @@
                   {
                     "id": "max",
                     "value": 0.35
+                  },
+                  {
+                    "id": "mappings",
+                    "value": [
+                      {
+                        "options": {
+                          "1": {
+                            "index": 0,
+                            "text": "Timeout"
+                          }
+                        },
+                        "type": "value"
+                      }
+                    ]
                   }
                 ]
               },
@@ -2810,8 +2856,61 @@
                         }
                       ]
                     }
+                  },
+                  {
+                    "id": "custom.minWidth",
+                    "value": 150
                   }
                 ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "code"
+                },
+                "properties": [
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "mode": "basic",
+                      "type": "color-background"
+                    }
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#8080800d",
+                      "mode": "fixed"
+                    }
+                  },
+                  {
+                    "id": "custom.minWidth",
+                    "value": 50
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": " "
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "none"
+                  },
+                  {
+                    "id": "custom.minWidth",
+                    "value": 50
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Name"
+                },
+                "properties": []
               }
             ]
           },
@@ -2819,9 +2918,9 @@
             "h": 5,
             "w": 12,
             "x": 12,
-            "y": 91
+            "y": 117
           },
-          "id": 143,
+          "id": 146,
           "options": {
             "cellHeight": "sm",
             "footer": {
@@ -2834,7 +2933,7 @@
               "reducer": [
                 "mean"
               ],
-              "show": false
+              "show": true
             },
             "frameIndex": 1,
             "showHeader": true
@@ -2885,33 +2984,11 @@
               "options": {
                 "include": {
                   "names": [
-                    "city",
+                    "code",
                     "name",
                     "Value #RTT",
                     "Value #Packet Loss"
                   ]
-                }
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {},
-                "includeByName": {},
-                "indexByName": {
-                  "Value #Packet Loss": 3,
-                  "Value #RTT": 2,
-                  "city": 0,
-                  "ip": 4,
-                  "name": 1
-                },
-                "renameByName": {
-                  "Value": "RTT",
-                  "Value #Packet Loss": "Packet Loss (PLR)",
-                  "Value #RTT": "Round-Trip (RTT)",
-                  "city": "Destination",
-                  "instance": "",
-                  "name": "Name"
                 }
               }
             },
@@ -2921,9 +2998,70 @@
                 "fields": {},
                 "sort": [
                   {
-                    "field": "Round-Trip (RTT)"
+                    "field": "Value #RTT"
                   }
                 ]
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": "Rank",
+                "mode": "index",
+                "reduce": {
+                  "reducer": "sum"
+                }
+              }
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "alias": " ",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Rank"
+                    }
+                  },
+                  "right": {
+                    "fixed": "1"
+                  }
+                },
+                "mode": "binary",
+                "reduce": {
+                  "reducer": "sum"
+                }
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  " ": false,
+                  "Rank": true,
+                  "Value #Packet Loss": false,
+                  "code": false
+                },
+                "includeByName": {},
+                "indexByName": {
+                  " ": 0,
+                  "Rank": 4,
+                  "Value #Packet Loss": 3,
+                  "Value #RTT": 2,
+                  "code": 5,
+                  "name": 1
+                },
+                "renameByName": {
+                  " ": "",
+                  "Value": "RTT",
+                  "Value #Packet Loss": "Packet Loss (PLR)",
+                  "Value #RTT": "Round-Trip (RTT)",
+                  "city": "",
+                  "code": " ",
+                  "instance": "",
+                  "name": "Name"
+                }
               }
             },
             {
@@ -3410,7 +3548,7 @@
         "h": 11,
         "w": 12,
         "x": 0,
-        "y": 4
+        "y": 21
       },
       "id": 1,
       "options": {
@@ -3574,7 +3712,7 @@
         "h": 8,
         "w": 7,
         "x": 12,
-        "y": 4
+        "y": 21
       },
       "id": 39,
       "options": {
@@ -3674,7 +3812,7 @@
         "h": 5,
         "w": 3,
         "x": 19,
-        "y": 4
+        "y": 21
       },
       "id": 93,
       "options": {
@@ -3900,7 +4038,7 @@
         "h": 8,
         "w": 2,
         "x": 22,
-        "y": 4
+        "y": 21
       },
       "id": 65,
       "options": {
@@ -3992,7 +4130,7 @@
         "h": 3,
         "w": 3,
         "x": 19,
-        "y": 9
+        "y": 26
       },
       "id": 123,
       "options": {
@@ -4143,7 +4281,7 @@
         "h": 8,
         "w": 7,
         "x": 12,
-        "y": 12
+        "y": 29
       },
       "id": 69,
       "options": {
@@ -4231,7 +4369,7 @@
         "h": 5,
         "w": 3,
         "x": 19,
-        "y": 12
+        "y": 29
       },
       "id": 112,
       "options": {
@@ -4318,7 +4456,7 @@
         "h": 8,
         "w": 2,
         "x": 22,
-        "y": 12
+        "y": 29
       },
       "id": 108,
       "options": {
@@ -4432,17 +4570,7 @@
             },
             "inspect": false
           },
-          "mappings": [
-            {
-              "options": {
-                "1": {
-                  "index": 0,
-                  "text": "Timeout"
-                }
-              },
-              "type": "value"
-            }
-          ],
+          "mappings": [],
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -4493,6 +4621,20 @@
               {
                 "id": "max",
                 "value": 0.35
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "1": {
+                        "index": 0,
+                        "text": "Timeout"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
               }
             ]
           },
@@ -4544,8 +4686,61 @@
                     }
                   ]
                 }
+              },
+              {
+                "id": "custom.minWidth",
+                "value": 150
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "code"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#8080800d",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.minWidth",
+                "value": 50
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": " "
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              },
+              {
+                "id": "custom.minWidth",
+                "value": 50
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Name"
+            },
+            "properties": []
           }
         ]
       },
@@ -4553,9 +4748,9 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 15
+        "y": 32
       },
-      "id": 144,
+      "id": 152,
       "options": {
         "cellHeight": "sm",
         "footer": {
@@ -4568,7 +4763,7 @@
           "reducer": [
             "mean"
           ],
-          "show": false
+          "show": true
         },
         "frameIndex": 1,
         "showHeader": true
@@ -4618,33 +4813,11 @@
           "options": {
             "include": {
               "names": [
-                "city",
+                "code",
                 "name",
                 "Value #RTT",
                 "Value #Packet Loss"
               ]
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {
-              "Value #Packet Loss": 3,
-              "Value #RTT": 2,
-              "city": 0,
-              "ip": 4,
-              "name": 1
-            },
-            "renameByName": {
-              "Value": "RTT",
-              "Value #Packet Loss": "Packet Loss (PLR)",
-              "Value #RTT": "Round-Trip (RTT)",
-              "city": "Destination",
-              "instance": "",
-              "name": "Name"
             }
           }
         },
@@ -4654,9 +4827,70 @@
             "fields": {},
             "sort": [
               {
-                "field": "Round-Trip (RTT)"
+                "field": "Value #RTT"
               }
             ]
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Rank",
+            "mode": "index",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": " ",
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Rank"
+                }
+              },
+              "right": {
+                "fixed": "1"
+              }
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              " ": false,
+              "Rank": true,
+              "Value #Packet Loss": false,
+              "code": false
+            },
+            "includeByName": {},
+            "indexByName": {
+              " ": 0,
+              "Rank": 4,
+              "Value #Packet Loss": 3,
+              "Value #RTT": 2,
+              "code": 5,
+              "name": 1
+            },
+            "renameByName": {
+              " ": "",
+              "Value": "RTT",
+              "Value #Packet Loss": "Packet Loss (PLR)",
+              "Value #RTT": "Round-Trip (RTT)",
+              "city": "",
+              "code": " ",
+              "instance": "",
+              "name": "Name"
+            }
           }
         },
         {
@@ -4727,7 +4961,7 @@
         "h": 3,
         "w": 3,
         "x": 19,
-        "y": 17
+        "y": 34
       },
       "id": 128,
       "options": {
@@ -4939,6 +5173,6 @@
   "timezone": "browser",
   "title": "◾️ BBxPing 2",
   "uid": "BlackboxExpt",
-  "version": 83,
+  "version": 29,
   "weekStart": ""
 }
