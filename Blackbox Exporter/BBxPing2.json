@@ -76,8 +76,8 @@
       }
     ]
   },
-  "description": "[v2] brand-new design woohoo!",
-  "editable": true,
+  "description": "[v2] Introducing BBxPING Gen2.",
+  "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
@@ -87,9 +87,7 @@
       "icon": "external link",
       "includeVars": false,
       "keepTime": false,
-      "tags": [
-        "SLOMO"
-      ],
+      "tags": [],
       "targetBlank": false,
       "title": "Other",
       "tooltip": "",
@@ -250,7 +248,7 @@
                       "mode": "field"
                     },
                     "textConfig": {
-                      "fontSize": 12,
+                      "fontSize": 10,
                       "offsetX": -2,
                       "offsetY": -2,
                       "textAlign": "right",
@@ -472,7 +470,7 @@
                       "mode": "field"
                     },
                     "textConfig": {
-                      "fontSize": 12,
+                      "fontSize": 10,
                       "offsetX": -2,
                       "offsetY": -2,
                       "textAlign": "right",
@@ -696,7 +694,7 @@
                       "mode": "field"
                     },
                     "textConfig": {
-                      "fontSize": 12,
+                      "fontSize": 10,
                       "offsetX": -2,
                       "offsetY": -2,
                       "textAlign": "right",
@@ -2349,8 +2347,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "#394f700d",
-                    "value": null
+                    "color": "#394f700d"
                   }
                 ]
               },
@@ -2732,7 +2729,7 @@
             "h": 11,
             "w": 12,
             "x": 12,
-            "y": 53
+            "y": 87
           },
           "id": 1,
           "options": {
@@ -2810,8 +2807,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "#394f70",
-                    "value": null
+                    "color": "#394f70"
                   },
                   {
                     "color": "#3d5b9b",
@@ -2899,8 +2895,7 @@
                       "mode": "absolute",
                       "steps": [
                         {
-                          "color": "transparent",
-                          "value": null
+                          "color": "transparent"
                         },
                         {
                           "color": "#7878781a",
@@ -2962,7 +2957,7 @@
             "h": 5,
             "w": 12,
             "x": 12,
-            "y": 64
+            "y": 98
           },
           "id": 153,
           "options": {
@@ -5207,7 +5202,7 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "◾️ BBxPing",
+  "title": "BBxPING",
   "uid": "BlackboxExpt",
   "version": 1,
   "weekStart": ""
