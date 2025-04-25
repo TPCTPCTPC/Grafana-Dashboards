@@ -1,3 +1,15 @@
+# Grafana Dashboards by TPCTPCTPC
+
+![License](https://img.shields.io/github/license/TPCTPCTPC/Grafana-Dashboards)
+![Languages](https://img.shields.io/badge/Languages-English%2F简体中文-lightgrey)
+
+![Built for Grafana](https://img.shields.io/badge/Built%20for-Grafana-F47A20?logo=grafana)
+![Datasource: Prometheus](https://img.shields.io/badge/Datasource-Prometheus-E6522C?logo=prometheus)
+![Compatible with VictoriaMetrics](https://img.shields.io/badge/Compatible%20with-VictoriaMetrics-4494D6?logo=VictoriaMetrics&logoColor=white)
+
+![Requires Node Exporter](https://img.shields.io/badge/Requires-Node%20Exporter-green?logo=prometheus)
+![Requires Blackbox Exporter](https://img.shields.io/badge/Requires-Blackbox%20Exporter-green?logo=prometheus)
+
 ## License & Authorship
 
 This project is developed and maintained by [TPCTPCTPC](https://github.com/TPCTPCTPC), originally published on the Grafana Dashboard Directory under the name [**tpctpctpc**](https://grafana.com/orgs/tpctpctpc) and the NodeSeek community forum under the name [**Bene**](https://www.nodeseek.com/space/17580#/general). Telegram: [@SLOMOtionTPC](https://t.me/SLOMOtionTPC)
