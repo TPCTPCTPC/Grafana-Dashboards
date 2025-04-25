@@ -31,6 +31,13 @@ This means any distribution, reuse, modification, or deployment—**including we
 
 Under construstion
 
+## Project Milestones
+
+- **2024-07-26** – *VPS Ping & Loss Rate* was first showcased in the Surge Pro Telegram group, and subsequently published to GitHub Gist the following day.  
+- **2024-11-20** – Initial development version of *Node Information* was released on GitHub; the first stable release followed on **2024-12-01**.  
+- **2024-12-08** – The prototype of *BBxPING* (codenamed **BBxPING Playground**) was completed; the stable version was officially released on **2024-12-13**.  
+- **2024-12-18** – *BBxPING Gen2* entered its initial development phase and reached its first stable release on **2024-12-26**.
+
 ## Legacy Panels
 
 The following folders contain earlier versions of dashboards, which were already published on the Grafana website.
