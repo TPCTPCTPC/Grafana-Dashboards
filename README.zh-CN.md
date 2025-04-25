@@ -1,3 +1,15 @@
+# Grafana Dashboards by TPCTPCTPC
+
+![许可证](https://img.shields.io/github/license/TPCTPCTPC/Grafana-Dashboards)
+![语言 英语/中文](https://img.shields.io/badge/支持语言-English%2F中文-lightgrey)
+
+![平台 Grafana](https://img.shields.io/badge/平台-Grafana-F47A20?logo=grafana)
+![数据源 Prometheus](https://img.shields.io/badge/数据源-Prometheus-E6522C?logo=prometheus)
+![兼容 VictoriaMetrics](https://img.shields.io/badge/兼容-VictoriaMetrics-4494D6?logo=VictoriaMetrics&logoColor=white)
+
+![采集器 Node Exporter](https://img.shields.io/badge/采集器-Node%20Exporter-green?logo=prometheus)
+![采集器 Blackbox Exporter](https://img.shields.io/badge/采集器-Blackbox%20Exporter-green?logo=prometheus)
+
 ## 许可与作者声明
 
 本项目由 [TPCTPCTPC](https://github.com/TPCTPCTPC) 独立开发与维护，最早发布于 Grafana 面板目录 (用户名 [**tpctpctpc**](https://grafana.com/orgs/tpctpctpc)) 和 NodeSeek 论坛（用户名 [**Bene**](https://www.nodeseek.com/space/17580#/general)）。Telegram：[@SLOMOtionTPC](https://t.me/SLOMOtionTPC)
