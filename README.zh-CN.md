@@ -26,3 +26,10 @@
 > 本项目早期版本基于 GPL-3.0 发布，旧版仍可依旧协议使用。  
 > 如有商业使用或许可请求，请通过 [Telegram](https://t.me/SLOMOtionTPC) 或 [GitHub](https://github.com/TPCTPCTPC) 联系作者。
 
+## 项目里程碑
+
+- **2024-07-26** – *VPS Ping & 丢包率监控面板* 首次在 Surge Pro Telegram 群组展示，并于次日发布至 GitHub Gist。  
+- **2024-11-20** – *Node Information* 面板开发版本首次发布于 GitHub，正式版于 **2024-12-01** 发布。  
+- **2024-12-08** – *BBxPING* 原型（代号 **BBxPING Playground**）完成，正式版于 **2024-12-13** 发布。  
+- **2024-12-18** – *BBxPING Gen2* 开始开发，并于 **2024-12-26** 推出首个正式版本。
+
