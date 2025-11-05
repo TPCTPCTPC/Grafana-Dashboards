@@ -1,0 +1,20 @@
+modules:
+  icmp:
+    prober: icmp
+    icmp:
+      preferred_ip_protocol: "ip4"
+  http:
+    prober: http
+    http:
+      method: HEAD
+  tcp:
+    prober: tcp
+    tcp:
+      preferred_ip_protocol: "ip4"
+  dns:
+    prober: dns
+    dns:
+      query_name: "www.google.com"
+      query_type: "A"
+      valid_rcodes:
+        - NOERROR
