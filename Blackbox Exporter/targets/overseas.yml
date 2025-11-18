@@ -1,0 +1,482 @@
+[
+  {
+    "targets": [
+      "3.80.0.0",
+      "2600:1f18:2fe:900::ec2"
+    ],
+    "labels": {
+      "name": "Amazon (IAD Ashburn)",
+      "code": "IAD",
+      "city": "🇺🇸 Ashburn, VA",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-sjc.netactuate.com",
+      "2607:f740:0:3f::618"
+    ],
+    "labels": {
+      "name": "NetActuate (Infra.SJC)",
+      "code": "SJC",
+      "city": "🇺🇸 San Jose, CA",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-lax.netactuate.com",
+      "2607:f740:c::eac"
+    ],
+    "labels": {
+      "name": "NetActuate (CoreSite LA1)",
+      "code": "LAX",
+      "city": "🇺🇸 Los Angeles, CA",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-dfw.netactuate.com",
+      "2607:f740:100::b27"
+    ],
+    "labels": {
+      "name": "NetActuate (DataBank DFW1)",
+      "code": "DFW",
+      "city": "🇺🇸 Dallas, TX",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-chi.netactuate.com",
+      "2607:f740:e::5d8"
+    ],
+    "labels": {
+      "name": "NetActuate (Equinix CH1)",
+      "code": "MDW",
+      "city": "🇺🇸 Chicago, IL",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-mia.netactuate.com",
+      "2607:f740:17::8bf"
+    ],
+    "labels": {
+      "name": "NetActuate (Equinix MI1)",
+      "code": "MIA",
+      "city": "🇺🇸 Miami, FL",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-lga.netactuate.com",
+      "2607:f740:f::a75"
+    ],
+    "labels": {
+      "name": "NetActuate (Telehouse LGA1)",
+      "code": "LGA",
+      "city": "🇺🇸 New York, NY",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-sea.netactuate.com",
+      "2607:f740:14::2f2"
+    ],
+    "labels": {
+      "name": "NetActuate (SIX & PNWGP)",
+      "code": "SEA",
+      "city": "🇺🇸 Seattle, WA",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-tor.netactuate.com",
+      "2607:f740:50::478"
+    ],
+    "labels": {
+      "name": "NetActuate (TorIX)",
+      "code": "YYZ",
+      "city": "🇨🇦 Toronto",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "78.14.0.2",
+      "2600:1f17:41e7:d200::ec2"
+    ],
+    "labels": {
+      "name": "Amazon (Equinix MX1)",
+      "code": "QRO",
+      "city": "🇲🇽 Querétaro",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-fra.netactuate.com",
+      "2a00:dd80:20::3cf"
+    ],
+    "labels": {
+      "name": "NetActuate (DE-CIX)",
+      "code": "FRA",
+      "city": "🇩🇪 Frankfurt",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-lhr.netactuate.com",
+      "2a00:dd80:3a::c7e"
+    ],
+    "labels": {
+      "name": "NetActuate (LINX)",
+      "code": "LHR",
+      "city": "🇬🇧 London",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-ams.netactuate.com",
+      "2a00:dd80:3c::6b"
+    ],
+    "labels": {
+      "name": "NetActuate (AMS-IX)",
+      "code": "AMS",
+      "city": "🇳🇱 Amsterdam",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "188.172.245.10",
+      "2a00:11c0:76:5:188:172:245:10"
+    ],
+    "labels": {
+      "name": "ANEXIA (France-IX)",
+      "code": "MRS",
+      "city": "🇫🇷 Marseille",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-dub.netactuate.com",
+      "2a00:dd80:d:8::2db"
+    ],
+    "labels": {
+      "name": "NetActuate (Equinix DB1)",
+      "code": "DUB",
+      "city": "🇮🇪 Dublin",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-cdg.netactuate.com",
+      "2a00:dd80:3e::914"
+    ],
+    "labels": {
+      "name": "NetActuate (France-IX)",
+      "code": "CDG",
+      "city": "🇫🇷 Paris",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-mad.netactuate.com",
+      "2a00:dd80:14:10::13c"
+    ],
+    "labels": {
+      "name": "NetActuate (ESpanix)",
+      "code": "MAD",
+      "city": "🇪🇸 Madrid",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "13.60.0.0",
+      "2a05:d016:35:4100::ec2"
+    ],
+    "labels": {
+      "name": "Amazon (Equinix SK1)",
+      "code": "ARN",
+      "city": "🇸🇪 Stockholm",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "15.160.0.0",
+      "2a05:d01a:c2d:7500::ec2"
+    ],
+    "labels": {
+      "name": "Amazon (Equinix ML2)",
+      "code": "MXP",
+      "city": "🇮🇹 Milan",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-waw.netactuate.com",
+      "2a00:dd80:40:100::1b6"
+    ],
+    "labels": {
+      "name": "NetActuate (Equinix WA1)",
+      "code": "WAW",
+      "city": "🇵🇱 Warsaw",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-sin.netactuate.com",
+      "2403:2500:300::6c"
+    ],
+    "labels": {
+      "name": "NetActuate (Infra.SIN)",
+      "code": "SIN",
+      "city": "🇸🇬 Singapore",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-tyo.netactuate.com",
+      "2403:2500:400:20::775"
+    ],
+    "labels": {
+      "name": "NetActuate (BBIX)",
+      "code": "HND",
+      "city": "🇯🇵 Tokyo",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-hkg.netactuate.com",
+      "2607:f740:90::f62"
+    ],
+    "labels": {
+      "name": "NetActuate (HKIX)",
+      "code": "HKG",
+      "city": "🇭🇰 Hong Kong",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-bom.netactuate.com",
+      "2403:2500:500:a::267"
+    ],
+    "labels": {
+      "name": "NetActuate (NIXI)",
+      "code": "BOM",
+      "city": "🇮🇳 Mumbai",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "15.168.0.0",
+      "2406:da16:730:7300::ec2"
+    ],
+    "labels": {
+      "name": "Amazon (Telehouse OS2)",
+      "code": "ITM",
+      "city": "🇯🇵 Osaka",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "3.34.0.0",
+      "2406:da12:128:d200::ec2"
+    ],
+    "labels": {
+      "name": "Amazon (KINX)",
+      "code": "ICN",
+      "city": "🇰🇷 Seoul",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "manila.getafix.ph",
+      "2401:da80:0:2::7"
+    ],
+    "labels": {
+      "name": "GetaFIX (Globe MK2)",
+      "code": "MNL",
+      "city": "🇵🇭 Manila",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "16.78.0.0",
+      "2406:da19:d6c:f600::ec2"
+    ],
+    "labels": {
+      "name": "Amazon (JKT-IX)",
+      "code": "CGK",
+      "city": "🇮🇩 Jakarta",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "43.213.3.242",
+      "2406:da1c:871c:e600::ec2"
+    ],
+    "labels": {
+      "name": "Amazon (CHT Taipei)",
+      "code": "TPE",
+      "city": "🇹🇼 Taipei",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "43.210.0.10",
+      "2406:da14:8793:7900::ec2"
+    ],
+    "labels": {
+      "name": "Amazon (Telehouse Bangkok)",
+      "code": "BKK",
+      "city": "🇹🇭 Bangkok",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-syd.netactuate.com",
+      "2403:2500:9000:1::99d"
+    ],
+    "labels": {
+      "name": "NetActuate (IX Australia)",
+      "code": "SYD",
+      "city": "🇦🇺 Sydney",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "16.26.0.0",
+      "2406:da1f:843:b900::ec2"
+    ],
+    "labels": {
+      "name": "Amazon (Equinix ME1)",
+      "city": "🇦🇺 Melbourne",
+      "code": "MEL",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "perth-lg.hostuniversal.com.au",
+      "2404:f780:8:503:216:3cff:fef7:a465"
+    ],
+    "labels": {
+      "name": "HostUniversal (NextDC P1)",
+      "code": "PER",
+      "city": "🇦🇺 Perth",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-gru.netactuate.com",
+      "2607:f740:1::c22"
+    ],
+    "labels": {
+      "name": "NetActuate (IX.BR)",
+      "code": "GRU",
+      "city": "🇧🇷 São Paulo",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-scl.netactuate.com",
+      "2607:f740:56:10::33c"
+    ],
+    "labels": {
+      "name": "NetActuate (PIT CHILE)",
+      "code": "SCL",
+      "city": "🇨🇱 Santiago",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-dxb.netactuate.com",
+      "2a00:dd80:3f:100::348"
+    ],
+    "labels": {
+      "name": "NetActuate (UAE-IX)",
+      "code": "DXB",
+      "city": "🇦🇪 Dubai",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "storage.me-west1.rep.googleapis.com",
+      "2a00:1450:4028:80a::2004"
+    ],
+    "labels": {
+      "name": "Google (IIX)",
+      "code": "TLV",
+      "city": "🇮🇱 Tel Aviv",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-jnb.netactuate.com",
+      "2c0f:edb0:0:10::a7"
+    ],
+    "labels": {
+      "name": "NetActuate (NAPAfrica)",
+      "code": "JNB",
+      "city": "🇿🇦 Johannesburg",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "216.58.223.228",
+      "2c0f:fb50:4003:802::2004"
+    ],
+    "labels": {
+      "name": "Google (IXPN)",
+      "code": "LOS",
+      "city": "🇳🇬 Lagos",
+      "isp": "Oversea Probe"
+    }
+  },
+  {
+    "targets": [
+      "lg-nbo.netactuate.com",
+      "2c0f:edb0:2000:1::160"
+    ],
+    "labels": {
+      "name": "NetActuate (KIXP)",
+      "code": "NBO",
+      "city": "🇰🇪 Nairobi",
+      "isp": "Oversea Probe"
+    }
+  }
+]
